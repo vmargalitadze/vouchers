@@ -2,40 +2,66 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { API } from "../../baseAPI";
-
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css/navigation";
+import "swiper/css";
 interface Item {
   id: string;
   object_name: string;
-  discount:string
+  discount: string;
   description: string;
   photo_path: string;
+  isOnline?: number;
+}
+
+interface Voucher {
+  id: number;
+  type: string;
+  isOnline?: number;
+  city: string;
+  object_name: string;
+  discount: string;
+  link: string;
+  password: string;
+  photos: string[];
+  description: string;
+  adress?: string;
 }
 
 const CompanyPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [items, setItems] = useState<Item[]>([]);
+
   const [loading, setLoading] = useState(true);
-  console.log(id);
-  console.log("CompanyPage Loaded");
+  const [data, setData] = useState<{
+    company: Voucher | null;
+    items: Item[];
+  }>({
+    company: null,
+    items: [],
+  });
   useEffect(() => {
     const fetchCompanyData = async () => {
       try {
-        const [itemsResponse ] = await Promise.all([
+        const [itemsResponse, vouchersResponse] = await Promise.all([
           axios.get(`${API}/vouchers/getfrommodal/${id}`),
+          axios.get(`${API}/vouchers/top`),
         ]);
 
-        const itemsData = itemsResponse.data;
-        
-        
-        const parsedItems = Array.isArray(itemsData.data)
-          ? itemsData.data
-          : Array.isArray(itemsData)
-          ? itemsData
+        const itemsData = Array.isArray(itemsResponse.data)
+          ? itemsResponse.data
           : [];
 
-        setItems(parsedItems);
+        const companyData: Voucher | undefined = vouchersResponse.data.find(
+          (voucher: Voucher) => String(voucher.id) === id
+        );
+
+        setData({
+          company: companyData || null,
+          items: itemsData,
+        });
       } catch (error) {
-        console.error("Error fetching company items:", error);
+        console.error("Error fetching company data:", error);
       } finally {
         setLoading(false);
       }
@@ -46,43 +72,122 @@ const CompanyPage: React.FC = () => {
     }
   }, [id]);
 
+  console.log(data.company);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-
+    <div className="p-6 mt-6 max-w-6xl mx-auto">
       {loading ? (
         <p className="text-center text-gray-500">იტვირთება...</p>
       ) : (
         <>
-          <h2 className="mt-[120px] text-2xl  text-yellow-500 text-center">
-            offerscard-ის მომხმარებლებისთვის გარანტირებული ფასდაკლება
-           </h2>
-        
-        <div className="mt-24 max-w-6xl mx-auto px-4">
-          <div className="grid grid-cols-3 gap-2 mb-6">
-            {items.map((item) => (
+          {data.company && (
+            <div className="container mb-10 mx-auto px-4 mt-16">
+              <div className="flex flex-col items-center gap-6">
+                {/* Image Top */}
+                <div className="w-full">
+                  <img
+                    alt="Company"
+                    src={data.company.photos[0]}
+                    className="w-full h-72 sm:h-80 md:h-[400px] object-cover rounded-xl shadow-lg"
+                  />
+                </div>
+
+                {/* Text Below */}
+                <div className="w-full text-yellow-800 flex flex-col gap-4 text-start">
+                  <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
+                    {data.company.object_name}
+                  </h1>
+
+                  <p className="text-sm sm:text-base text-gray-800 leading-relaxed">
+                    {data.company.description}
+                  </p>
+
+                  <p className="text-sm sm:text-base font-medium">
+                    <span className="font-semibold text-yellow-600">
+                      ქალაქი:
+                    </span>{" "}
+                    {JSON.parse(data.company.city || "[]")[0] || "უცნობი"}
+                  </p>
+
+                  <p className="text-sm sm:text-base font-medium">
+                    <span className="font-semibold text-yellow-600">
+                      მისამართი:
+                    </span>{" "}
+                    {data.company.adress}
+                  </p>
+
+                  {data.company.discount && (
+                    <p className="text-sm sm:text-base font-medium text-green-600">
+                      ფასდაკლება: {data.company.discount}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <h2 className="text-2xl text-yellow-500 text-center mb-6">
+            კომპანიის პროდუქტები
+          </h2>
+
+          {/* პატარა ეკრანებზე grid */}
+          <div className="grid sm:hidden grid-cols-3 gap-2 mb-6">
+            {data.items.map((item) => (
               <div
                 key={item.id}
-                className="bg-white rounded-2xl shadow-lg p-4 flex flex-col items-center hover:shadow-xl transition-shadow duration-300"
+                className="bg-white h-[400px] rounded-2xl shadow-lg p-4 flex flex-col justify-between items-center hover:shadow-xl transition-shadow duration-300"
               >
-                <img
-                  src={item.photo_path}
-                  alt={item.object_name}
-                  className="w-full h-48 object-cover rounded-xl mb-4"
-                />
-                <h3 className="text-lg font-semibold text-center text-gray-800 mb-2">
-                  {item.object_name}
-                </h3>
-                <p className="text-gray-600 text-sm text-center">
-                  {item.discount}
-                </p>
+                <div className="w-full h-60 mb-4">
+                  <img
+                    src={item.photo_path}
+                    alt={item.object_name}
+                    className="w-full h-full object-cover rounded-xl"
+                  />
+                </div>
+                <div className="flex flex-col items-center gap-1 text-center">
+                  <p className="text-yellow-600 text-sm">{item.discount}</p>
+                  {data.company && data.company.isOnline === 1 && (
+                    <button className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600">
+                      შეკვეთა
+                    </button>
+                  )}
+                </div>
               </div>
             ))}
           </div>
-        </div>
-        
+
+          {/* დიდი ეკრანებზე swiper */}
+          <div className="hidden sm:block mb-6">
+            <Swiper
+              slidesPerView={1}
+              spaceBetween={10}
+              navigation
+              modules={[Navigation]}
+            >
+              {data.items.map((voucher) => (
+                <SwiperSlide key={voucher.id}>
+                  <div className="relative w-full h-64 rounded-xl overflow-hidden shadow-lg">
+                    <img
+                      src={voucher.photo_path}
+                      alt={voucher.object_name}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 bg-white  p-4 rounded-t-xl shadow-md">
+                  <p className="text-yellow-600 font-semibold">
+                    {voucher.discount}
+                  </p>
+                  {data.company && data.company.isOnline === 1 && (
+                    <button className="mt-2 bg-yellow-500 flex items-center justify-center mx-auto text-white px-4 py-2 rounded-md hover:bg-yellow-600">
+                      შეკვეთა
+                    </button>
+                  )}
+                </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
         </>
-        
       )}
     </div>
   );
