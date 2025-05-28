@@ -4,6 +4,8 @@ import axios from "axios";
 import { API } from "../../baseAPI";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useNavigate } from "react-router-dom";
+
 import "swiper/css/navigation";
 import "swiper/css";
 interface Item {
@@ -31,7 +33,11 @@ interface Voucher {
 
 const CompanyPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
+  const goHome = () => {
+    navigate("/");
+  };
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<{
     company: Voucher | null;
@@ -82,8 +88,15 @@ const CompanyPage: React.FC = () => {
         <>
           {data.company && (
             <div className="container mb-10 mx-auto px-4 mt-16">
+              <div className="mb-5 flex items-start">
+                <button
+                  onClick={() => navigate(-1)}
+                  className="px-4 py-2 bg-yellow-600  rounded-lg text-black transition-colors shadow-sm"
+                >
+                  ← უკან დაბრუნება
+                </button>
+              </div>
               <div className="flex flex-col items-center gap-6">
-                {/* Image Top */}
                 <div className="w-full">
                   <img
                     alt="Company"
@@ -173,15 +186,15 @@ const CompanyPage: React.FC = () => {
                       className="absolute inset-0 w-full h-full object-cover"
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-white  p-4 rounded-t-xl shadow-md">
-                  <p className="text-yellow-600 font-semibold">
-                    {voucher.discount}
-                  </p>
-                  {data.company && data.company.isOnline === 1 && (
-                    <button className="mt-2 bg-yellow-500 flex items-center justify-center mx-auto text-white px-4 py-2 rounded-md hover:bg-yellow-600">
-                      შეკვეთა
-                    </button>
-                  )}
-                </div>
+                      <p className="text-yellow-600 font-semibold">
+                        {voucher.discount}
+                      </p>
+                      {data.company && data.company.isOnline === 1 && (
+                        <button className="mt-2 bg-yellow-500 flex items-center justify-center mx-auto text-white px-4 py-2 rounded-md hover:bg-yellow-600">
+                          შეკვეთა
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </SwiperSlide>
               ))}
