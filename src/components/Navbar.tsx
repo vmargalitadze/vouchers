@@ -86,15 +86,16 @@ export default function Navbar() {
                   className="flex items-center gap-2 text-gray-300 hover:text-yellow-500 transition-colors duration-200"
                 >
                   <i className="fa-regular fa-user text-yellow-500"></i>
-                  <span className="text-sm">
-                    {context?.userInfo?.username}
-                  </span>
+                  <span className="text-sm">{context?.userInfo?.username}</span>
                 </Link>
                 <button
                   onClick={() => {
                     localStorage.removeItem("Token");
-                    context?.setUserInfo(null); // Optional: Clear context if needed
-                    navigate("/login");
+
+                    context?.setUserInfo?.(null); // წაშალე user info
+                    context?.setIsLoggined?.(false); // აუცილებლად შეცვალე login სტატუსი
+
+                    navigate("/dashboard"); // გადაამისამართე login გვერდზე (არ dashboard-ზე)
                   }}
                   className="text-gray-300 hover:text-yellow-500 transition-colors duration-200"
                 >

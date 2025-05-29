@@ -1,23 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, useState } from "react";
+
 export const MyContext = createContext<ContextInterface | undefined>(undefined);
 
 interface ContextInterface {
-  userInfo?: userInterface | any;
-  language?: string;
-  isLoggedin?: boolean;
-  hideNavbar?: boolean;
-  setHideNavbar?: any;
-  setIsLoggined?: any;
-  setUserInfo?: any;
-  setLanguage?: Function;
-  defaultLanguage?: string;
-  setDefaultLanguage?: any;
-  notifications?: any;
-  setNotifications?: any;
-  notifyModal?: boolean;
-  setNotifModal?: any;
-  notifModal?: boolean;
+  userInfo?: userInterface | null;
+  setUserInfo?: (user: userInterface | null) => void;
   isLoggined?: boolean;
+  setIsLoggined?: (val: boolean) => void;
+  hideNavbar?: boolean;
+  setHideNavbar?: (val: boolean) => void;
+  language?: string;
+  setLanguage?: (lang: string) => void;
+  defaultLanguage?: string;
+  setDefaultLanguage?: (lang: string) => void;
+  notifications?: string[];
+  setNotifications?: (val: string[]) => void;
+  notifModal?: boolean;
+  setNotifModal?: (val: boolean) => void;
 }
 
 interface userInterface {
@@ -37,22 +37,25 @@ interface userInterface {
   verificationnumber: number | null;
   verified: string;
   referralCode: number;
-  voucher_code:any;
-  balance: number
+  voucher_code: any;
+  balance: number;
 }
 
 export const MyContextProvider = ({ children }: any) => {
   const [defaultLanguage, setDefaultLanguage] = useState(
-    localStorage.getItem("language") || "EN"
+    typeof window !== "undefined"
+      ? localStorage.getItem("language") || "EN"
+      : "EN"
   );
 
   const [hideNavbar, setHideNavbar] = useState<boolean>(false);
-
-  const [userInfo, setUserInfo] = useState<null | userInterface>(null);
+  const [userInfo, setUserInfo] = useState<userInterface | null>(null);
   const [language, setLanguage] = useState<string>("GE");
+
   const [isLoggined, setIsLoggined] = useState<boolean>(
-    localStorage.getItem("Token") ? true : false
+    typeof window !== "undefined" ? !!localStorage.getItem("Token") : false
   );
+
   const [notifications, setNotifications] = useState<string[]>([]);
   const [notifModal, setNotifModal] = useState<boolean>(false);
 
