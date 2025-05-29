@@ -35,9 +35,7 @@ const CompanyPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const goHome = () => {
-    navigate("/");
-  };
+
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<{
     company: Voucher | null;
@@ -81,7 +79,7 @@ const CompanyPage: React.FC = () => {
   console.log(data.company);
 
   return (
-    <div className="p-6 mt-6 max-w-6xl mx-auto">
+    <div className="p-6  max-w-6xl mx-auto">
       {loading ? (
         <p className="text-center text-gray-500">იტვირთება...</p>
       ) : (
@@ -148,7 +146,7 @@ const CompanyPage: React.FC = () => {
             {data.items.map((item) => (
               <div
                 key={item.id}
-                className="bg-white h-[400px] rounded-2xl shadow-lg p-4 flex flex-col justify-between items-center hover:shadow-xl transition-shadow duration-300"
+                className="bg-white h-[350px] rounded-2xl shadow-lg p-4 flex flex-col justify-between items-center hover:shadow-xl transition-shadow duration-300"
               >
                 <div className="w-full h-60 mb-4">
                   <img
@@ -179,14 +177,14 @@ const CompanyPage: React.FC = () => {
             >
               {data.items.map((voucher) => (
                 <SwiperSlide key={voucher.id}>
-                  <div className="relative w-full h-64 rounded-xl overflow-hidden shadow-lg">
+                  <div className="relative w-full h-80 rounded-xl overflow-hidden shadow-lg">
                     <img
                       src={voucher.photo_path}
                       alt={voucher.object_name}
                       className="absolute inset-0 w-full h-full object-cover"
                     />
-                    <div className="absolute bottom-0 left-0 right-0 bg-white  p-4 rounded-t-xl shadow-md">
-                      <p className="text-yellow-600 font-semibold">
+                    <div className="absolute top-[200px] left-0 right-0 bg-white  p-4  shadow-md">
+                      <p className="text-yellow-600 text-xl font-semibold">
                         {voucher.discount}
                       </p>
                       {data.company && data.company.isOnline === 1 && (

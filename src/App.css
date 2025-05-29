@@ -17,6 +17,7 @@ body {
 .swiper-button-prev,
 .swiper-button-next {
   color: #ca8a04 !important;  /* Tailwind text-yellow-600 */
+  padding-bottom: 150px !important;
 }
 
 /* Grid layout for cards */
