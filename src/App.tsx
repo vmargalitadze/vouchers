@@ -39,9 +39,13 @@ function App() {
         language: context?.defaultLanguage,
       })
       .then((res) => {
-        context?.setUserInfo(res.data.userData[0]);
+        if (context?.setUserInfo) {
+          context.setUserInfo(res.data.userData[0]);
+        }
        
-        context?.setNotifications(res.data.notifications);
+        if (context?.setNotifications) {
+          context.setNotifications(res.data.notifications);
+        }
       });
   }, []);
 
@@ -87,7 +91,7 @@ function App() {
 
   return (
     <div
-      className={`App ${context?.isLoggined ? "lg:pt-32" : ""} `}
+      className={`App ${context?.isLoggined ? "" : ""} `}
       style={{ fontFamily: currentLanguage }}
     >
 <Navbar />

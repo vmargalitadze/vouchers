@@ -146,7 +146,7 @@ const CompanyPage: React.FC = () => {
             {data.items.map((item) => (
               <div
                 key={item.id}
-                className="bg-white h-[350px] rounded-2xl shadow-lg p-4 flex flex-col justify-between items-center hover:shadow-xl transition-shadow duration-300"
+                className="bg-white h-[400px] rounded-2xl shadow-lg p-4 flex flex-col justify-between items-center hover:shadow-xl transition-shadow duration-300"
               >
                 <div className="w-full h-60 mb-4">
                   <img
@@ -177,7 +177,7 @@ const CompanyPage: React.FC = () => {
             >
               {data.items.map((voucher) => (
                 <SwiperSlide key={voucher.id}>
-                  <div className="relative w-full h-80 rounded-xl overflow-hidden shadow-lg">
+                  <div className="relative w-full h-[400px] rounded-xl overflow-hidden shadow-lg">
                     <img
                       src={voucher.photo_path}
                       alt={voucher.object_name}
