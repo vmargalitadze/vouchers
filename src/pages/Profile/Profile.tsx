@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext, useState, useEffect } from "react";
 import { MyContext } from "../../Context/myContext";
 import axios from "axios";
@@ -131,7 +132,7 @@ export default function Profile() {
       </Helmet>
 
       {profileData ? (
-        <div className="p-4 sm:p-3">
+        <div className="p-4 mt-10 sm:p-3">
           <div className="p-6 rounded-lg shadow-inner shadow-yellow-500 flex flex-col items-center w-full max-w-sm sm:max-w-md mx-auto mt-8 sm:p-3">
             <div className="profile-details w-full">
               <div className="flex flex-col items-center mb-6">
