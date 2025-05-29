@@ -39,7 +39,7 @@ export default function RegistrationPage() {
         <meta name="robots" content="index, follow" />
       </Helmet>
 
-      <div className="relative p-16 h-full xl:px-1  2xl:myContainer">
+      <div className="relative p-16 h-screen xl:px-1  2xl:myContainer">
         <main className="py-[80px] text-white flex justify-around items-center h-full relative 2xl:flex-wrap gap-32 lg:gap-16">
           <RegistrationLeftside
             isLogging={isLogging}

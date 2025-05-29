@@ -21,6 +21,7 @@ interface ContextInterface {
 }
 
 interface userInterface {
+  discount: any;
   auto_sub: any;
   email: string;
   help: number;

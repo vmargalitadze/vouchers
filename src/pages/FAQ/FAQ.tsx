@@ -70,10 +70,12 @@ const FAQ = () => {
       </Helmet>
 
       <>
+      <div className="h-screen mt-10">
+
         {FAQ_Questions?.map((item: FAQItem, index: number) => (
           <div
             key={index}
-            className="mb-7 border-b-yellowButton border-transparent border rounded-md"
+            className="mb-7  border-b-yellowButton border-transparent border rounded-md"
           >
             <button
               className="w-full text-left p-4 font-medium text-white bg-cardBgBlack rounded-lg focus:outline-none"
@@ -96,6 +98,7 @@ const FAQ = () => {
             </div>
           </div>
         ))}
+      </div>
       </>
     </div>
   );

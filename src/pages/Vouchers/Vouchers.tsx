@@ -32,9 +32,13 @@ export default function Vouchers() {
 
   const handleRedirect = async () => {
     try {
+      if (!context?.userInfo) {
+        console.error("User info is not available.");
+        return;
+      }
       const payload = {
-        userId: context?.userInfo.id,
-        discount: context?.userInfo?.discount,
+        userId: context.userInfo.id,
+        discount: context.userInfo.discount,
         successUrl: "http://offerscard.ge/#/PaymentSuccess",
         failUrl: "http://offerscard.ge/#/PaymentFailed",
       };
@@ -51,11 +55,13 @@ export default function Vouchers() {
         const redirectUrl = res.data.redirect.href;
         console.log("Redirect URL found:", redirectUrl);
 
+        // URL Parsing to extract order_id
         const urlParams = new URLSearchParams(new URL(redirectUrl).search);
         const orderId = urlParams.get("order_id");
 
         if (orderId) {
           console.log("Order ID extracted from URL:", orderId);
+          // Redirect user with order_id in URL
           window.location.href = redirectUrl;
         } else {
           console.error("order_id not found in redirect URL:", redirectUrl);
@@ -175,11 +181,11 @@ export default function Vouchers() {
               </>
             ) : (
               <p className="text-white mt-20 text-2xl">
-                {localStorage.getItem("Token") !== "guest" ? (
+                {context?.isLoggined ? (
                   <div className="flex flex-col gap-5 items-center">
                     <h2>თქვენ არ გაქვთ აქტიური გამოწერა</h2>
                     <button
-                      className="border-yellow-500 w-fit p-4 rounded-2xl"
+                      className="p-2 bg-yellow-500 mt-3 rounded-2xl"
                       onClick={handleRedirect}
                     >
                       გამოწერა

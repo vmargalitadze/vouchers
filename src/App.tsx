@@ -16,6 +16,7 @@ import { Helmet } from "react-helmet-async"; // Import Helmet
 import PaymentSuccess from './pages/Payment/PaymentSuccess.tsx'
 import PaymentFailed from "./pages/Payment/PaymentFailed.tsx";
 import CompanyPage from "./pages/Company/CompanyPage.tsx"; 
+import Footer from "./components/Footer.tsx";
 
 function App() {
   const navigate = useNavigate();
@@ -96,7 +97,7 @@ function App() {
     >
 <Navbar />
 
-      {/* Add the Helmet component to dynamically add the canonical tag */}
+      
       <Helmet>
         <link
           rel="canonical"
@@ -117,6 +118,8 @@ function App() {
         <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
         <Route path="/PaymentFailed" element={<PaymentFailed />} />
       </Routes>
+
+      <Footer />
     </div>
   );
 }
