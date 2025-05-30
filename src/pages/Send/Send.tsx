@@ -41,7 +41,7 @@ const Send: React.FC = () => {
       ...prev,
       [name]: value,
     }));
-    // წაშალე ერორი ველის შევსებისას
+   
     setErrors((prev) => ({
       ...prev,
       [name]: "",
@@ -97,7 +97,7 @@ const Send: React.FC = () => {
       phone: formData.phone.trim(),
     };
 
-    console.log("Form Data being sent:", submitData);
+   
 
     try {
       console.log("Sending request to:", `${API}/vouchers/send-info`);

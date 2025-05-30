@@ -76,7 +76,6 @@ const CompanyPage: React.FC = () => {
     }
   }, [id]);
 
-
   return (
     <div className="p-6  max-w-6xl mx-auto">
       {loading ? (
@@ -206,6 +205,11 @@ const CompanyPage: React.FC = () => {
                         (context?.isLoggined ? (
                           <Link
                             to="/send"
+                            state={{
+                              objId: data.company.id,
+                              items: data.items,
+                              userId: context?.userInfo?.id,
+                            }}
                             className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
                           >
                             შეკვეთა
