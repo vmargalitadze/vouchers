@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { API } from "../../baseAPI";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useNavigate } from "react-router-dom";
-
+import { MyContext } from "../../Context/myContext";
 import "swiper/css/navigation";
 import "swiper/css";
 interface Item {
@@ -34,7 +34,7 @@ interface Voucher {
 const CompanyPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-
+  const context = useContext(MyContext);
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<{
@@ -76,7 +76,6 @@ const CompanyPage: React.FC = () => {
     }
   }, [id]);
 
-  console.log(data.company);
 
   return (
     <div className="p-6  max-w-6xl mx-auto">
@@ -157,11 +156,27 @@ const CompanyPage: React.FC = () => {
                 </div>
                 <div className="flex flex-col items-center gap-1 text-center">
                   <p className="text-yellow-600 text-sm">{item.discount}</p>
-                  {data.company && data.company.isOnline === 1 && (
-                    <button className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600">
-                      შეკვეთა
-                    </button>
-                  )}
+                  {data.company?.isOnline === 1 &&
+                    (context?.isLoggined ? (
+                      <Link
+                        to="/send"
+                        state={{
+                          objId: data.company.id,
+                          items: data.items,
+                          userId: context?.userInfo?.id,
+                        }}
+                        className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+                      >
+                        შეკვეთა
+                      </Link>
+                    ) : (
+                      <Link
+                        to="/login"
+                        className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+                      >
+                        შესვლა
+                      </Link>
+                    ))}
                 </div>
               </div>
             ))}
@@ -187,11 +202,22 @@ const CompanyPage: React.FC = () => {
                       <p className="text-yellow-600 text-xl font-semibold">
                         {voucher.discount}
                       </p>
-                      {data.company && data.company.isOnline === 1 && (
-                        <button className="mt-2 bg-yellow-500 flex items-center justify-center mx-auto text-white px-4 py-2 rounded-md hover:bg-yellow-600">
-                          შეკვეთა
-                        </button>
-                      )}
+                      {data.company?.isOnline === 1 &&
+                        (context?.isLoggined ? (
+                          <Link
+                            to="/send"
+                            className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+                          >
+                            შეკვეთა
+                          </Link>
+                        ) : (
+                          <Link
+                            to="/login"
+                            className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+                          >
+                            შესვლა
+                          </Link>
+                        ))}
                     </div>
                   </div>
                 </SwiperSlide>

@@ -17,6 +17,7 @@ import PaymentSuccess from './pages/Payment/PaymentSuccess.tsx'
 import PaymentFailed from "./pages/Payment/PaymentFailed.tsx";
 import CompanyPage from "./pages/Company/CompanyPage.tsx"; 
 import Footer from "./components/Footer.tsx";
+import Send from "./pages/Send/Send.tsx";
 
 function App() {
   const navigate = useNavigate();
@@ -114,7 +115,7 @@ function App() {
         <Route path="/cards" element={<Vouchers />} />
         <Route path="/cards/:id" element={<Voucher />} />
         <Route path="/company/:id" element={<CompanyPage />} />
-        
+        <Route path="/send" element={<Send />} />
         <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
         <Route path="/PaymentFailed" element={<PaymentFailed />} />
       </Routes>
