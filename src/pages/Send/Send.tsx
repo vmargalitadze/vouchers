@@ -90,22 +90,21 @@ const Send: React.FC = () => {
     setLoading(true);
 
     const submitData = {
-      ...formData,
+      name: formData.name,
+      surname: formData.surname,
+      address: formData.address,
+      phone: formData.phone.trim(),
       userId,
       objId,
-      items,
-      phone: formData.phone.trim(),
+      items
     };
 
    
-
     try {
-
       const response = await axios.post(`${API}/vouchers/send-info`, submitData);
-   
+      console.log("API Response:", response.data);
 
       if (response.data) {
-    
         navigate("/");
       }
     } catch (error: any) {
@@ -140,7 +139,7 @@ const Send: React.FC = () => {
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            className={`w-full p-2 border rounded ${errors.name ? 'border-red-500' : ''}`}
+            className={`w-full p-2 border text-black rounded ${errors.name ? 'border-red-500' : ''}`}
           />
           {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
         </div>
@@ -153,7 +152,7 @@ const Send: React.FC = () => {
             name="surname"
             value={formData.surname}
             onChange={handleInputChange}
-            className={`w-full p-2 border rounded ${errors.surname ? 'border-red-500' : ''}`}
+            className={`w-full p-2 border text-black rounded ${errors.surname ? 'border-red-500' : ''}`}
           />
           {errors.surname && <p className="text-red-500 text-sm mt-1">{errors.surname}</p>}
         </div>
@@ -166,7 +165,7 @@ const Send: React.FC = () => {
             name="address"
             value={formData.address}
             onChange={handleInputChange}
-            className={`w-full p-2 border rounded ${errors.address ? 'border-red-500' : ''}`}
+            className={`w-full p-2 border text-black rounded ${errors.address ? 'border-red-500' : ''}`}
           />
           {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
         </div>
@@ -180,7 +179,7 @@ const Send: React.FC = () => {
             value={formData.phone}
             onChange={handleInputChange}
             placeholder="5XXXXXXXX"
-            className={`w-full p-2 border rounded ${errors.phone ? 'border-red-500' : ''}`}
+            className={`w-full p-2 border text-black rounded ${errors.phone ? 'border-red-500' : ''}`}
           />
           {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
         </div>

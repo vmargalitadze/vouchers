@@ -18,7 +18,7 @@ import PaymentFailed from "./pages/Payment/PaymentFailed.tsx";
 import CompanyPage from "./pages/Company/CompanyPage.tsx"; 
 import Footer from "./components/Footer.tsx";
 import Send from "./pages/Send/Send.tsx";
-
+import Rules from "./pages/Rules/Rules";
 function App() {
   const navigate = useNavigate();
   const location = useLocation(); // To get the current route path
@@ -116,6 +116,7 @@ function App() {
         <Route path="/cards/:id" element={<Voucher />} />
         <Route path="/company/:id" element={<CompanyPage />} />
         <Route path="/send" element={<Send />} />
+         <Route path="/rules" element={<Rules />} />
         <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
         <Route path="/PaymentFailed" element={<PaymentFailed />} />
       </Routes>

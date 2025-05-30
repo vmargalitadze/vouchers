@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { MyContext } from "../../Context/myContext";
 import "swiper/css/navigation";
 import "swiper/css";
+import Carousel from "./Carousel";
+
 interface Item {
   id: string;
   object_name: string;
@@ -75,6 +77,7 @@ const CompanyPage: React.FC = () => {
       fetchCompanyData();
     }
   }, [id]);
+
 
   return (
     <div className="p-6  max-w-6xl mx-auto">
@@ -183,50 +186,41 @@ const CompanyPage: React.FC = () => {
 
           {/* დიდი ეკრანებზე swiper */}
           <div className="hidden sm:block mb-6">
-            <Swiper
-              slidesPerView={1}
-              spaceBetween={10}
-              navigation
-              modules={[Navigation]}
-            >
-              {data.items.map((voucher) => (
-                <SwiperSlide key={voucher.id}>
-                  <div className="relative w-full h-[400px] rounded-xl overflow-hidden shadow-lg">
-                    <img
-                      src={voucher.photo_path}
-                      alt={voucher.object_name}
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
-                    <div className="absolute top-[200px] left-0 right-0 bg-white  p-4  shadow-md">
-                      <p className="text-yellow-600 text-xl font-semibold">
-                        {voucher.discount}
-                      </p>
-                      {data.company?.isOnline === 1 &&
-                        (context?.isLoggined ? (
-                          <Link
-                            to="/send"
-                            state={{
-                              objId: data.company.id,
-                              items: data.items,
-                              userId: context?.userInfo?.id,
-                            }}
-                            className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
-                          >
-                            შეკვეთა
-                          </Link>
-                        ) : (
-                          <Link
-                            to="/login"
-                            className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
-                          >
-                            შესვლა
-                          </Link>
-                        ))}
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+      
+     <Carousel
+  slides={data.items.map((item) => ({
+    id: Number(item.id), // Convert string id to number
+    image: item.photo_path,
+    discount: item.discount,
+  }))}
+  renderOverlay={(voucher) => (
+    <div className=" w-full bg-white flex justify-center items-center flex-col z-24 left-0 right-0  p-4 shadow-md ">
+      <p className="text-yellow-600 text-xl font-semibold">{voucher.discount}</p>
+      {data.company?.isOnline === 1 &&
+        (context?.isLoggined ? (
+          <Link
+            to="/send"
+            state={{
+              objId: data.company.id,
+              items: data.items,
+              userId: context?.userInfo?.id,
+            }}
+            className=" z-24 inline-block bg-yellow-500 text-white px-4 py-2  hover:bg-yellow-600"
+          >
+            შეკვეთა
+          </Link>
+        ) : (
+          <Link
+            to="/login"
+            className="mt-2 inline-block z-24 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+          >
+            შესვლა
+          </Link>
+        ))}
+    </div>
+  )}
+/>
+
           </div>
         </>
       )}

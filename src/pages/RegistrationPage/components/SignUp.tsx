@@ -34,6 +34,7 @@ import anotherImage12 from "../../../assets/rules/პერსონალურ
 import anotherImage13 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-12.jpg";
 import anotherImage14 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-13.jpg";
 import anotherImage15 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-14.jpg";
+import { Link } from "react-router-dom";
 
 
 
@@ -128,7 +129,7 @@ const rulesImages = [
 
   return (
     <div className="flex flex-col justify-center items-center ">
-      <h1 className="text-2xl">რეგისტრაცია</h1>
+      <h1 className="text-2xl mt-12">რეგისტრაცია</h1>
       <p>მიუთითეთ თქვენი ინფორმაცია</p>
       <form
         className="flex flex-col gap-5 lg:w-full"
@@ -224,6 +225,18 @@ const rulesImages = [
               >
                 პირობებს
               </span>
+            </p>
+          </div>
+             <div className="flex items-center">
+            <Checkbox required className="ckeck border !border-yellow-300" />
+            <p className="flex gap-1">
+             წაიკითხე
+              <Link
+                className="underline text-yellow-500 cursor-pointer"
+                to={"/rules"}
+              >
+                წესები
+              </Link>
             </p>
           </div>
           <div className="flex items-center">

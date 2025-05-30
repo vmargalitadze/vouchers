@@ -13,7 +13,9 @@ body {
   overflow: hidden !important;
 }
 
-
+ .imagge{
+  height: 280vh !important;
+}
 .swiper-button-prev,
 .swiper-button-next {
   color: #ca8a04 !important;  /* Tailwind text-yellow-600 */
