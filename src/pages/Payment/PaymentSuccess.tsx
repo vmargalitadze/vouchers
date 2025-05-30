@@ -13,7 +13,7 @@ function PaymentSuccess() {
       axios
         .post(`${API}/users/verify-bog-payment`, { orderId })
         .then(() => {
-          console.log("Payment verified successfully");
+       
 
           const timer = setTimeout(() => {
             navigate("/Dashboard");

@@ -8,7 +8,7 @@ function PaymentFailed() {
 
   useEffect(() => {
     if (orderId) {
-      console.log("Order failed with ID:", orderId);
+ 
 
       const timer = setTimeout(() => {
         navigate("/Dashboard");

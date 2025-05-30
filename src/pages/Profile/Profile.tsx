@@ -37,24 +37,23 @@ export default function Profile() {
         failUrl: "http://offerscard.ge/#/PaymentFailed",
       };
 
-      console.log("Sending payload to backend:", payload);
 
       const res = await axios.post(`${API}/users/bog-token`, payload, {
         withCredentials: true,
       });
 
-      console.log("Response from backend:", res.data);
+ 
 
       if (res.data.redirect?.href) {
         const redirectUrl = res.data.redirect.href;
-        console.log("Redirect URL found:", redirectUrl);
+     
 
         // URL Parsing to extract order_id
         const urlParams = new URLSearchParams(new URL(redirectUrl).search);
         const orderId = urlParams.get("order_id");
 
         if (orderId) {
-          console.log("Order ID extracted from URL:", orderId);
+      
           // Redirect user with order_id in URL
           window.location.href = redirectUrl;
         } else {
@@ -87,7 +86,7 @@ export default function Profile() {
           token: localStorage.getItem("Token"),
         })
         .then((res) => {
-          console.log(res.data);
+     
 
           if (context?.setUserInfo) {
             context.setUserInfo(res.data.userData[0]);

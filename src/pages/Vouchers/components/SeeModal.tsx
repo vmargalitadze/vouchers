@@ -15,7 +15,7 @@ export default function SeeModal({ voucher, setSeeModal }: any) {
           `${API}/vouchers/getfrommodal/${voucher.id}`
         );
         setOfferData(response.data); // ველით, რომ response.data არის array
-        console.log("Voucher data from backend:", response.data);
+  
       } catch (error) {
         console.error("Error fetching voucher data:", error);
       } finally {

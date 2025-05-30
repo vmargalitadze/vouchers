@@ -100,12 +100,12 @@ const Send: React.FC = () => {
    
 
     try {
-      console.log("Sending request to:", `${API}/vouchers/send-info`);
+
       const response = await axios.post(`${API}/vouchers/send-info`, submitData);
-      console.log("Server Response:", response.data);
+   
 
       if (response.data) {
-        console.log("შეკვეთა წარმატებით გაიგზავნა!");
+    
         navigate("/");
       }
     } catch (error: any) {
