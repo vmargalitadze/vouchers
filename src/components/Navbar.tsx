@@ -99,7 +99,7 @@ export default function Navbar() {
                   }}
                   className="text-gray-300 hover:text-yellow-500 transition-colors duration-200"
                 >
-                  <img src={logout} alt="logout" className="w-5 h-5" />
+                  <img src={logout} alt="logout" className="w-5 h-5 md:w-12 md:h-12" />
                 </button>
               </>
             )}

@@ -112,7 +112,7 @@ export default function Vouchers() {
         />
       </Helmet>
 
-      <div className="border mt-16 border-yellow-500 flex w-[97%] m-auto rounded-xl">
+      <div className="border mt-24 border-yellow-500 flex w-[97%] m-auto rounded-xl">
         <div
           className={`w-1/2 text-center cursor-pointer rounded-xl p-3 ${
             focused === "buy" && "border-b-4 border-yellow-500 focused"

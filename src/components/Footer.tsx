@@ -23,7 +23,7 @@ function Footer() {
         </div>
 
         {/* Bottom footer content */}
-        <div className="w-full max-w-screen-xl mx-auto flex flex-col md:flex-row items-center justify-between text-white">
+        <div className="w-full max-w-screen-xl mx-auto flex flex-col md:flex-col items-center justify-between text-white">
           {/* Left side - logo */}
           <Link
             to="/"
@@ -38,7 +38,7 @@ function Footer() {
           </Link>
 
           {/* Right side - links */}
-          <ul className="flex flex-wrap items-center text-sm font-medium space-x-4 md:space-x-6">
+          <ul className="flex flex-wrap justify-center gap-y-4 items-center text-sm font-medium space-x-4 md:space-x-6">
             <li>
               <Link to="/" className="hover:underline">
                 მთავარი

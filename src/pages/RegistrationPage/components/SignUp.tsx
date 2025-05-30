@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-types */
 import axios from "axios";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -125,7 +127,7 @@ const rulesImages = [
   const [isPdfOpen, setIsPdfOpen] = useState<boolean>(false);
 
   return (
-    <div className="flex flex-col justify-center items-center gap-5 xl:w-full">
+    <div className="flex flex-col justify-center items-center ">
       <h1 className="text-2xl">რეგისტრაცია</h1>
       <p>მიუთითეთ თქვენი ინფორმაცია</p>
       <form
