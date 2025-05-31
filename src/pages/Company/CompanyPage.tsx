@@ -103,7 +103,7 @@ const CompanyPage: React.FC = () => {
                   />
                 </div>
 
-                <div className="w-full text-yellow-800 flex flex-col gap-4 text-start">
+                <div className="w-full text-yellow-600 flex flex-col gap-4 text-start">
                   <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
                     {data.company.object_name}
                   </h1>
@@ -127,7 +127,7 @@ const CompanyPage: React.FC = () => {
                   </p>
 
                   {data.company.discount && (
-                    <p className="text-sm sm:text-base font-medium text-green-600">
+                    <p className="text-sm sm:text-base font-medium text-yellow-600">
                       ფასდაკლება: {data.company.discount}
                     </p>
                   )}
@@ -153,7 +153,7 @@ const CompanyPage: React.FC = () => {
                     className="w-full h-full object-cover rounded-xl"
                   />
                 </div>
-                <div className="flex flex-col items-center gap-1 text-center">
+                <div className="flex flex-row justify-between items-center  gap-1 text-center">
                   <p className="text-yellow-600 text-sm">{item.discount}</p>
                   {data.company?.isOnline === 1 &&
                     (context?.isLoggined ? (
