@@ -153,7 +153,7 @@ const CompanyPage: React.FC = () => {
                     className="w-full h-full object-cover rounded-xl"
                   />
                 </div>
-                <div className="flex flex-row justify-between items-center  gap-1 text-center">
+                <div className="flex flex-col items-center gap-1 text-center">
                   <p className="text-yellow-600 text-sm">{item.discount}</p>
                   {data.company?.isOnline === 1 &&
                     (context?.isLoggined ? (
