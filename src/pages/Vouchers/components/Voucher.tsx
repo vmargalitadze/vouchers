@@ -71,25 +71,22 @@ export default function Voucher() {
         <meta name="keywords" content={`vouchers, ${id}, offers`} />
       </Helmet>
 
-     
-
       <h1 className="text-2xl font-bold mb-4">კატეგორია : {id}</h1>
-
-      <select
-        className="bg-white text-black mt-12 p-2 rounded-lg mb-4 w-full"
-        value={selectedCity}
-        onChange={handleCityChange}
-      >
-        <option value="" disabled>
-          აირჩიეთ ქალაქი
-        </option>
-        {cities.map((city) => (
-          <option key={city} value={city}>
-            {city}
+      <div className="pb-96">
+        <select
+          className="bg-white text-black mt-12 p-2 rounded-lg mb-4 w-full"
+          value={selectedCity}
+          onChange={handleCityChange}
+        >
+          <option value="" disabled>
+            აირჩიეთ ქალაქი
           </option>
-        ))}
-      </select>
-
+          {cities.map((city) => (
+            <option key={city} value={city}>
+              {city}
+            </option>
+          ))}
+        </select>
       {selectedCity && (
         <input
           type="text"
@@ -99,13 +96,12 @@ export default function Voucher() {
           className="bg-white text-black  p-2 rounded-lg mb-4 w-full"
         />
       )}
-
       <div className="card-grid">
         {filteredVouchers.map((voucher) => (
           <div key={voucher.id}>
             <button
               className="voucher-card"
-              onClick={() => navigate(`/company/${voucher.id}`)} 
+              onClick={() => navigate(`/company/${voucher.id}`)}
               style={{ backgroundImage: `url(${voucher.photos[0]})` }}
             ></button>
             <div className="voucher-text">
@@ -119,6 +115,9 @@ export default function Voucher() {
           </p>
         )}
       </div>
+      </div>
+
+
     </div>
   );
 }
