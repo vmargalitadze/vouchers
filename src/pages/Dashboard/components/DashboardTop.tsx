@@ -78,7 +78,7 @@ export default function DashboardTop() {
       </Helmet>
 
       <div className="text-white text-center p-4 lg:py-8 !w-full">
-        <h2 className="text-2xl font-bold mb-4 sm:text-sm">სერვისები</h2>
+        <h2 className="text-2xl font-bold mb-4 sm:text-xl">სერვისები</h2>
 
         <div className="grid grid-cols-3 gap-2 mb-6">
           {voucherTypes.length > 0 &&
@@ -105,7 +105,7 @@ export default function DashboardTop() {
         </div>
 
         {/* Top Vouchers Section */}
-        <h2 className="text-2xl font-bold my-4 sm:text-sm">
+        <h2 className="text-2xl font-bold my-4 sm:text-xl">
          ფავორიტები
         </h2>
         {error && <p className="text-red-500">{error}</p>}
@@ -150,7 +150,7 @@ export default function DashboardTop() {
                         backgroundImage: `url(${voucher.photos[0] || ""})`,
                       }}
                     ></div>
-                    <h2 className="object-name text-2xl font-bold mb-2">
+                    <h2 className="object-name text-2xl sm:text-[16px] font-bold mb-2">
                       {voucher.object_name}
                     </h2>
                   </Link>

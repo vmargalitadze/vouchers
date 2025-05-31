@@ -75,9 +75,9 @@ export default function Navbar() {
             {!isAuthenticated ? (
               <button
                 onClick={() => navigate("/login")}
-                className="text-yellow-500 hover:text-yellow-600 transition-colors duration-200 text-sm"
+                className="flex items-center gap-2 text-yellow-500 hover:text-yellow-600 transition-colors duration-200 text-sm font-medium px-3 py-1 rounded "
               >
-                შესვლა/რეგისტრაცია
+                შესვლა / რეგისტრაცია
               </button>
             ) : (
               <>
@@ -99,7 +99,11 @@ export default function Navbar() {
                   }}
                   className="text-gray-300 hover:text-yellow-500 transition-colors duration-200"
                 >
-                  <img src={logout} alt="logout" className="w-5 h-5 md:w-12 md:h-12" />
+                  <img
+                    src={logout}
+                    alt="logout"
+                    className="w-5 h-5 md:w-12 md:h-12"
+                  />
                 </button>
               </>
             )}

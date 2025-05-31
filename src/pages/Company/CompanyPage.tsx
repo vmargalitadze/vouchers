@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { API } from "../../baseAPI";
-import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+
 import { useNavigate } from "react-router-dom";
 import { MyContext } from "../../Context/myContext";
 import "swiper/css/navigation";
@@ -37,6 +36,7 @@ const CompanyPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const context = useContext(MyContext);
+  console.log(context?.userInfo?.subscription);
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<{
@@ -78,7 +78,6 @@ const CompanyPage: React.FC = () => {
     }
   }, [id]);
 
-
   return (
     <div className="p-6  max-w-6xl mx-auto">
       {loading ? (
@@ -104,7 +103,6 @@ const CompanyPage: React.FC = () => {
                   />
                 </div>
 
-                {/* Text Below */}
                 <div className="w-full text-yellow-800 flex flex-col gap-4 text-start">
                   <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
                     {data.company.object_name}
@@ -142,7 +140,6 @@ const CompanyPage: React.FC = () => {
             კომპანიის პროდუქტები
           </h2>
 
-          {/* პატარა ეკრანებზე grid */}
           <div className="grid sm:hidden grid-cols-3 gap-2 mb-6">
             {data.items.map((item) => (
               <div
@@ -160,17 +157,26 @@ const CompanyPage: React.FC = () => {
                   <p className="text-yellow-600 text-sm">{item.discount}</p>
                   {data.company?.isOnline === 1 &&
                     (context?.isLoggined ? (
-                      <Link
-                        to="/send"
-                        state={{
-                          objId: data.company.id,
-                          items: data.items,
-                          userId: context?.userInfo?.id,
-                        }}
-                        className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
-                      >
-                        შეკვეთა
-                      </Link>
+                      context?.userInfo?.subscription === 1 ? (
+                        <Link
+                          to="/send"
+                          state={{
+                            objId: data.company.id,
+                            items: data.items,
+                            userId: context?.userInfo?.id,
+                          }}
+                          className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+                        >
+                          შეკვეთა
+                        </Link>
+                      ) : (
+                        <Link
+                          to="/profile"
+                          className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+                        >
+                          ჩართე გამოწერა
+                        </Link>
+                      )
                     ) : (
                       <Link
                         to="/login"
@@ -186,41 +192,50 @@ const CompanyPage: React.FC = () => {
 
           {/* დიდი ეკრანებზე swiper */}
           <div className="hidden sm:block mb-6">
-      
-     <Carousel
-  slides={data.items.map((item) => ({
-    id: Number(item.id), // Convert string id to number
-    image: item.photo_path,
-    discount: item.discount,
-  }))}
-  renderOverlay={(voucher) => (
-    <div className=" w-full bg-white flex justify-center items-center flex-col z-24 left-0 right-0  p-4 shadow-md ">
-      <p className="text-yellow-600 text-xl font-semibold">{voucher.discount}</p>
-      {data.company?.isOnline === 1 &&
-        (context?.isLoggined ? (
-          <Link
-            to="/send"
-            state={{
-              objId: data.company.id,
-              items: data.items,
-              userId: context?.userInfo?.id,
-            }}
-            className=" z-24 inline-block bg-yellow-500 text-white px-4 py-2  hover:bg-yellow-600"
-          >
-            შეკვეთა
-          </Link>
-        ) : (
-          <Link
-            to="/login"
-            className="mt-2 inline-block z-24 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
-          >
-            შესვლა
-          </Link>
-        ))}
-    </div>
-  )}
-/>
-
+            <Carousel
+              slides={data.items.map((item) => ({
+                id: Number(item.id), // Convert string id to number
+                image: item.photo_path,
+                discount: item.discount,
+              }))}
+              renderOverlay={(voucher) => (
+                <div className=" w-full bg-white flex justify-center items-center flex-col z-24 left-0 right-0  p-4 shadow-md ">
+                  <p className="text-yellow-600 text-xl font-semibold">
+                    {voucher.discount}
+                  </p>
+                  {data.company?.isOnline === 1 &&
+                    (context?.isLoggined ? (
+                      context?.userInfo?.subscription === 1 ? (
+                        <Link
+                          to="/send"
+                          state={{
+                            objId: data.company.id,
+                            items: data.items,
+                            userId: context?.userInfo?.id,
+                          }}
+                          className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+                        >
+                          შეკვეთა
+                        </Link>
+                      ) : (
+                        <Link
+                          to="/profile"
+                          className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+                        >
+                         ჩართე გამოწერა
+                        </Link>
+                      )
+                    ) : (
+                      <Link
+                        to="/login"
+                        className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
+                      >
+                        შესვლა
+                      </Link>
+                    ))}
+                </div>
+              )}
+            />
           </div>
         </>
       )}
