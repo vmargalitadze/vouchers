@@ -8,6 +8,7 @@ import { MyContext } from "../../Context/myContext";
 import "swiper/css/navigation";
 import "swiper/css";
 import Carousel from "./Carousel";
+import OrderLimitModal from "../../components/OrderLimitModal";
 
 interface Item {
   id: string;
@@ -38,7 +39,8 @@ const CompanyPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const context = useContext(MyContext);
-  console.log(context?.userInfo?.subscription);
+  const [orderCount, setOrderCount] = useState<number>(0);
+  const [showLimitModal, setShowLimitModal] = useState<boolean>(false);
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<{
@@ -48,6 +50,43 @@ const CompanyPage: React.FC = () => {
     company: null,
     items: [],
   });
+
+  useEffect(() => {
+    // Load order count from localStorage
+    const savedOrderCount = localStorage.getItem('dailyOrderCount');
+    const savedDate = localStorage.getItem('orderCountDate');
+    const today = new Date().toDateString();
+
+    if (savedDate === today && savedOrderCount) {
+      setOrderCount(parseInt(savedOrderCount));
+    } else {
+      // Reset count if it's a new day
+      localStorage.setItem('orderCountDate', today);
+      localStorage.setItem('dailyOrderCount', '0');
+      setOrderCount(0);
+    }
+  }, []);
+
+  const handleOrder = () => {
+    if (orderCount >= 5) {
+      setShowLimitModal(true);
+      return;
+    }
+
+    const newCount = orderCount + 1;
+    setOrderCount(newCount);
+    localStorage.setItem('dailyOrderCount', newCount.toString());
+    
+    // Navigate to send page if under limit
+    navigate("/send", {
+      state: {
+        objId: data.company?.id,
+        items: data.items,
+        userId: context?.userInfo?.id,
+      },
+    });
+  };
+
   useEffect(() => {
     const fetchCompanyData = async () => {
       try {
@@ -79,10 +118,14 @@ const CompanyPage: React.FC = () => {
       fetchCompanyData();
     }
   }, [id]);
-  console.log(data.company);
+  console.log(context?.userInfo );
 
   return (
     <div className="p-6  max-w-6xl mx-auto">
+      <OrderLimitModal 
+        isOpen={showLimitModal} 
+        onClose={() => setShowLimitModal(false)} 
+      />
       {loading ? (
         <p className="text-center text-gray-500">იტვირთება...</p>
       ) : (
@@ -184,17 +227,12 @@ const CompanyPage: React.FC = () => {
                   {data.company?.isOnline === 1 &&
                     (context?.isLoggined ? (
                       context?.userInfo?.subscription === 1 ? (
-                        <Link
-                          to="/send"
-                          state={{
-                            objId: data.company.id,
-                            items: data.items,
-                            userId: context?.userInfo?.id,
-                          }}
+                        <button
+                          onClick={handleOrder}
                           className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
                         >
                           შეკვეთა
-                        </Link>
+                        </button>
                       ) : (
                         <Link
                           to="/profile"
@@ -220,7 +258,7 @@ const CompanyPage: React.FC = () => {
           <div className="hidden sm:block mb-6">
             <Carousel
               slides={data.items.map((item) => ({
-                id: Number(item.id), // Convert string id to number
+                id: Number(item.id),
                 image: item.photo_path,
                 discount: item.discount,
               }))}
@@ -232,17 +270,12 @@ const CompanyPage: React.FC = () => {
                   {data.company?.isOnline === 1 &&
                     (context?.isLoggined ? (
                       context?.userInfo?.subscription === 1 ? (
-                        <Link
-                          to="/send"
-                          state={{
-                            objId: data.company.id,
-                            items: data.items,
-                            userId: context?.userInfo?.id,
-                          }}
+                        <button
+                          onClick={handleOrder}
                           className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
                         >
                           შეკვეთა
-                        </Link>
+                        </button>
                       ) : (
                         <Link
                           to="/profile"
