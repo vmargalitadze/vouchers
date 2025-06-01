@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { API } from "../../baseAPI";
-
+import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { MyContext } from "../../Context/myContext";
 import "swiper/css/navigation";
@@ -30,6 +30,8 @@ interface Voucher {
   photos: string[];
   description: string;
   adress?: string;
+  fb?: string;
+  insta?: string;
 }
 
 const CompanyPage: React.FC = () => {
@@ -77,6 +79,7 @@ const CompanyPage: React.FC = () => {
       fetchCompanyData();
     }
   }, [id]);
+  console.log(data.company);
 
   return (
     <div className="p-6  max-w-6xl mx-auto">
@@ -104,12 +107,35 @@ const CompanyPage: React.FC = () => {
                 </div>
 
                 <div className="w-full text-yellow-600 flex flex-col gap-4 text-start">
-                  <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
+                  <h1 className="text-xl sm:text-[20px] md:text-2xl font-bold">
                     {data.company.object_name}
                   </h1>
 
                   <p className="text-sm sm:text-base text-gray-800 leading-relaxed">
                     {data.company.description}
+                  </p>
+                  <p className="text-sm flex sm:text-base font-medium">
+                    <span className="font-semibold text-yellow-600">
+                      სოციალური ქსელები:
+                    </span>{" "}
+                    <div className="flex">
+                      <Link
+                        to={data.company.fb || ""}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mx-2 text-white text-2xl bg-[#1877F2]"
+                      >
+                        <FaFacebook />
+                      </Link>
+                      <Link
+                        to={data.company.insta || ""}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mx-2 text-white text-2xl bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045]"
+                      >
+                        <FaInstagram />
+                      </Link>
+                    </div>
                   </p>
 
                   <p className="text-sm sm:text-base font-medium">
@@ -222,7 +248,7 @@ const CompanyPage: React.FC = () => {
                           to="/profile"
                           className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
                         >
-                         ჩართე გამოწერა
+                          ჩართე გამოწერა
                         </Link>
                       )
                     ) : (
