@@ -53,16 +53,16 @@ const CompanyPage: React.FC = () => {
 
   useEffect(() => {
     // Load order count from localStorage
-    const savedOrderCount = localStorage.getItem('dailyOrderCount');
-    const savedDate = localStorage.getItem('orderCountDate');
+    const savedOrderCount = localStorage.getItem("dailyOrderCount");
+    const savedDate = localStorage.getItem("orderCountDate");
     const today = new Date().toDateString();
 
     if (savedDate === today && savedOrderCount) {
       setOrderCount(parseInt(savedOrderCount));
     } else {
       // Reset count if it's a new day
-      localStorage.setItem('orderCountDate', today);
-      localStorage.setItem('dailyOrderCount', '0');
+      localStorage.setItem("orderCountDate", today);
+      localStorage.setItem("dailyOrderCount", "0");
       setOrderCount(0);
     }
   }, []);
@@ -75,8 +75,8 @@ const CompanyPage: React.FC = () => {
 
     const newCount = orderCount + 1;
     setOrderCount(newCount);
-    localStorage.setItem('dailyOrderCount', newCount.toString());
-    
+    localStorage.setItem("dailyOrderCount", newCount.toString());
+
     // Navigate to send page if under limit
     navigate("/send", {
       state: {
@@ -118,13 +118,13 @@ const CompanyPage: React.FC = () => {
       fetchCompanyData();
     }
   }, [id]);
-  console.log(context?.userInfo );
+  console.log(context?.userInfo);
 
   return (
     <div className="p-6  max-w-6xl mx-auto">
-      <OrderLimitModal 
-        isOpen={showLimitModal} 
-        onClose={() => setShowLimitModal(false)} 
+      <OrderLimitModal
+        isOpen={showLimitModal}
+        onClose={() => setShowLimitModal(false)}
       />
       {loading ? (
         <p className="text-center text-gray-500">იტვირთება...</p>
@@ -170,14 +170,16 @@ const CompanyPage: React.FC = () => {
                       >
                         <FaFacebook />
                       </Link>
-                      <Link
-                        to={data.company.insta || ""}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mx-2 text-white text-2xl bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045]"
-                      >
-                        <FaInstagram />
-                      </Link>
+                      {data.company.insta && (
+                        <Link
+                          to={data.company.insta}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mx-2 text-white text-2xl bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045]"
+                        >
+                          <FaInstagram />
+                        </Link>
+                      )}
                     </div>
                   </p>
 
