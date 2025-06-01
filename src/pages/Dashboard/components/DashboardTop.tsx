@@ -104,10 +104,16 @@ export default function DashboardTop() {
             ))}
         </div>
 
-        {/* Top Vouchers Section */}
-        <h2 className="text-2xl font-bold my-4 sm:text-xl">
-         ფავორიტები
-        </h2>
+       <div className="flex justify-between items-center mb-4">
+
+        <h2 className="text-2xl font-bold my-4 sm:text-[16px]">ფავორიტები</h2>
+        <Link to='/all'
+         
+          className="px-4 py-2 bg-yellow-600  rounded-lg text-black transition-colors shadow-sm"
+        >
+           ყველა  კომპანია-&gt;
+        </Link>
+       </div>
         {error && <p className="text-red-500">{error}</p>}
         {loading ? (
           <Loader width="50px" />

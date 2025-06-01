@@ -19,6 +19,7 @@ import CompanyPage from "./pages/Company/CompanyPage.tsx";
 import Footer from "./components/Footer.tsx";
 import Send from "./pages/Send/Send.tsx";
 import Rules from "./pages/Rules/Rules";
+import All from "./pages/All/All.tsx";
 function App() {
   const navigate = useNavigate();
   const location = useLocation(); // To get the current route path
@@ -111,6 +112,7 @@ function App() {
         <Route path="/Login" element={<RegistrationPage />} />
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/FAQ" element={<FAQ />} />
+        <Route path="/All" element={<All />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/cards" element={<Vouchers />} />
         <Route path="/cards/:id" element={<Voucher />} />
