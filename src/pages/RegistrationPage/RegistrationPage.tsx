@@ -39,8 +39,8 @@ export default function RegistrationPage() {
         <meta name="robots" content="index, follow" />
       </Helmet>
 
-      <div className="relative mb-56 h-screen xl:px-1  2xl:myContainer">
-        <main className="mt-[80px] text-white flex justify-around items-center h-full relative 2xl:flex-wrap gap-32 lg:gap-16">
+      <div className="relative mb-48  xl:px-1  2xl:myContainer">
+        <main className="mt-[180px]   text-white flex justify-around items-center h-full relative 2xl:flex-wrap gap-32 lg:gap-16">
           <RegistrationLeftside
             isLogging={isLogging}
             setIsLogging={setIsLogging}
