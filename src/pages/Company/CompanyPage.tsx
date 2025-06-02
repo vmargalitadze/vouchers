@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { MyContext } from "../../Context/myContext";
 import "swiper/css/navigation";
 import "swiper/css";
-import Carousel from "./Carousel";
+
 import OrderLimitModal from "../../components/OrderLimitModal";
 
 interface Item {
@@ -52,7 +52,6 @@ const CompanyPage: React.FC = () => {
   });
 
   useEffect(() => {
-    // Load order count from localStorage
     const savedOrderCount = localStorage.getItem("dailyOrderCount");
     const savedDate = localStorage.getItem("orderCountDate");
     const today = new Date().toDateString();
@@ -198,7 +197,7 @@ const CompanyPage: React.FC = () => {
                   </p>
 
                   {data.company.discount && (
-                    <p className="text-sm sm:text-base font-medium text-yellow-600">
+                    <p className="text-sm sm:text-base font-medium text-green-600">
                       ფასდაკლება: {data.company.discount}
                     </p>
                   )}
@@ -211,92 +210,58 @@ const CompanyPage: React.FC = () => {
             კომპანიის პროდუქტები
           </h2>
 
-          <div className="grid sm:hidden grid-cols-3 gap-2 mb-6">
+          <div className="grid  grid-cols-4 sm:gap-y-7 gap-5 sm:grid-cols-1  mb-6">
             {data.items.map((item) => (
               <div
                 key={item.id}
-                className="bg-white h-[400px] rounded-2xl shadow-lg p-4 flex flex-col justify-between items-center hover:shadow-xl transition-shadow duration-300"
+                className="relative w-full h-[45vh] rounded-2xl shadow-lg overflow-hidden group"
               >
-                <div className="w-full h-60 mb-4">
-                  <img
-                    src={item.photo_path}
-                    alt={item.object_name}
-                    className="w-full h-full object-cover rounded-xl"
-                  />
-                </div>
-                <div className="flex flex-col items-center gap-1 text-center">
-                  <p className="text-yellow-600 text-sm">{item.discount}</p>
-                  {data.company?.isOnline === 1 &&
-                    (context?.isLoggined ? (
-                      context?.userInfo?.subscription === 1 ? (
-                        <button
-                          onClick={handleOrder}
-                          className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
-                        >
-                          შეკვეთა
-                        </button>
-                      ) : (
-                        <Link
-                          to="/profile"
-                          className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
-                        >
-                          ჩართე გამოწერა
-                        </Link>
-                      )
-                    ) : (
-                      <Link
-                        to="/login"
-                        className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
-                      >
-                        შესვლა
-                      </Link>
-                    ))}
+                {/* Product image */}
+                <img
+                  src={item.photo_path}
+                  alt={item.object_name}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+
+                {/* Overlay content */}
+                <div className="absolute inset-0 flex items-end">
+                  <div className="w-full bg-white p-4 flex flex-col items-center text-center gap-2">
+                    {item.discount && (
+                      <p className="text-yellow-500 text-sm">{item.discount}</p>
+                    )}
+
+                    {data.company?.isOnline === 1 && (
+                      <>
+                        {context?.isLoggined ? (
+                          context?.userInfo?.subscription === 1 ? (
+                            <button
+                              onClick={handleOrder}
+                              className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition w-full max-w-xs"
+                            >
+                              შეკვეთა
+                            </button>
+                          ) : (
+                            <Link
+                              to="/profile"
+                              className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition w-full max-w-xs"
+                            >
+                              ჩართე გამოწერა
+                            </Link>
+                          )
+                        ) : (
+                          <Link
+                            to="/login"
+                            className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition w-full max-w-xs"
+                          >
+                            შესვლა
+                          </Link>
+                        )}
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* დიდი ეკრანებზე swiper */}
-          <div className="hidden sm:block mb-6">
-            <Carousel
-              slides={data.items.map((item) => ({
-                id: Number(item.id),
-                image: item.photo_path,
-                discount: item.discount,
-              }))}
-              renderOverlay={(voucher) => (
-                <div className=" w-full bg-white flex justify-center items-center flex-col z-24 left-0 right-0  p-4 shadow-md ">
-                  <p className="text-yellow-600 text-xl font-semibold">
-                    {voucher.discount}
-                  </p>
-                  {data.company?.isOnline === 1 &&
-                    (context?.isLoggined ? (
-                      context?.userInfo?.subscription === 1 ? (
-                        <button
-                          onClick={handleOrder}
-                          className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
-                        >
-                          შეკვეთა
-                        </button>
-                      ) : (
-                        <Link
-                          to="/profile"
-                          className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
-                        >
-                          ჩართე გამოწერა
-                        </Link>
-                      )
-                    ) : (
-                      <Link
-                        to="/login"
-                        className="mt-2 bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
-                      >
-                        შესვლა
-                      </Link>
-                    ))}
-                </div>
-              )}
-            />
           </div>
         </>
       )}
