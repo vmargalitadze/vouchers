@@ -77,43 +77,69 @@ export default function DashboardTop() {
         <meta name="robots" content="index, follow" />
       </Helmet>
 
-      <div className="text-white text-center p-4 lg:py-8 !w-full">
+      <div className="text-white text-center  p-4 lg:py-8 !w-full">
         <h2 className="text-2xl font-bold mb-4 sm:text-xl">სერვისები</h2>
 
-        <div className="grid grid-cols-3 gap-2 mb-6">
-          {voucherTypes.length > 0 &&
-            voucherTypes.map((type) => (
-              <Link
-                key={type}
-                to={`/cards/${type}`}
-                className="bg-gray-800 p-4 rounded-lg shadow-md flex flex-col items-center text-center hover:bg-gray-700 transition-colors"
-              >
-                <div
-                  className="w-16 h-16 mb-2 rounded-full"
-                  style={{
-                    backgroundImage: `url(${
-                      images[type] || images["მაღაზიები"]
-                    })`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                  }}
-                ></div>
-                <h2 className="text-lg font-semibold">{type}</h2>
-              </Link>
-            ))}
+        <div className="w-full mb-6 flex justify-center items-center mx-auto">
+          {voucherTypes.length > 0 && (
+            <Swiper
+              slidesPerView={1} // default for small screens
+              spaceBetween={10}
+              freeMode={false}
+              autoplay={{ delay: 1500, disableOnInteraction: false }}
+              modules={[FreeMode, Pagination, Autoplay]}
+              className="mySwiper max-w-3xl w-full"
+              breakpoints={{
+                640: {
+                  slidesPerView: 1,
+                  spaceBetween: 10,
+                },
+                768: {
+                  slidesPerView: 2,
+                  spaceBetween: 12,
+                },
+                1024: {
+                  slidesPerView: 3,
+                  spaceBetween: 16,
+                },
+              }}
+            >
+              {voucherTypes.map((type) => (
+                <SwiperSlide key={type}>
+                  <Link
+                    to={`/cards/${type}`}
+                    className="bg-gray-800 p-4 rounded-lg shadow-md flex flex-col items-center text-center hover:bg-gray-700 transition-colors w-full max-w-[220px] mx-auto"
+                  >
+                    <div
+                      className="w-16 h-16 mb-2 rounded-full"
+                      style={{
+                        backgroundImage: `url(${
+                          images[type] || images["მაღაზიები"]
+                        })`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
+                      }}
+                    ></div>
+                    <h2 className="text-2xl  font-semibold">
+                      {type}
+                    </h2>
+                  </Link>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )}
         </div>
 
-       <div className="flex justify-between items-center mb-4">
-
-        <h2 className="text-2xl font-bold my-4 sm:text-[16px]">ფავორიტები</h2>
-        <Link to='/all'
-         
-          className="px-4 py-2 bg-yellow-600  rounded-lg text-black transition-colors shadow-sm"
-        >
-           ყველა  კომპანია-&gt;
-        </Link>
-       </div>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold my-4 sm:text-[16px]">ფავორიტები</h2>
+          <Link
+            to="/all"
+            className="px-4 py-2 bg-yellow-600  rounded-lg text-black transition-colors shadow-sm"
+          >
+            ყველა კომპანია-&gt;
+          </Link>
+        </div>
         {error && <p className="text-red-500">{error}</p>}
         {loading ? (
           <Loader width="50px" />

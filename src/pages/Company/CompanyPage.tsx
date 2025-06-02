@@ -144,7 +144,7 @@ const CompanyPage: React.FC = () => {
                   <img
                     alt="Company"
                     src={data.company.photos[0]}
-                    className="w-full h-72 sm:h-80 md:h-[400px] object-cover rounded-xl shadow-lg"
+                    className="w-full h-72 sm:h-80 md:h-[400px] object-cover sm:object-contain rounded-xl shadow-lg"
                   />
                 </div>
 
@@ -217,13 +217,15 @@ const CompanyPage: React.FC = () => {
                 className="w-full rounded-2xl shadow-lg overflow-hidden group bg-white flex flex-col"
               >
                 {/* Product image */}
-                <div className="w-full h-[40vh] overflow-hidden">
+                  <div className="relative w-full overflow-hidden rounded-xl shadow-lg">
                   <img
-                    src={item.photo_path}
-                    alt={item.object_name}
-                    className="w-full h-full object-cover sm:object-contain transition-transform duration-500 group-hover:scale-105"
+                    alt={data.company?.object_name || "Company"}
+                    src={data.company?.photos[0]}
+                    className="w-full h-72 sm:h-80 md:h-[400px] object-cover rounded-xl shadow-lg"
                   />
                 </div>
+
+
 
                 {/* Bottom content */}
                 <div className="p-4 flex flex-col items-center text-center gap-2 bg-white">
