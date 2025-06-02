@@ -117,7 +117,7 @@ const CompanyPage: React.FC = () => {
       fetchCompanyData();
     }
   }, [id]);
-  console.log(data.items);
+
 
   return (
     <div className="p-6  max-w-6xl mx-auto">
