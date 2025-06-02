@@ -212,55 +212,56 @@ const CompanyPage: React.FC = () => {
 
           <div className="grid  grid-cols-4 sm:gap-y-7 gap-5 sm:grid-cols-1  mb-6">
             {data.items.map((item) => (
-              <div
-                key={item.id}
-                className="relative w-full h-[45vh] rounded-2xl shadow-lg overflow-hidden group"
-              >
-                {/* Product image */}
-                <img
-                  src={item.photo_path}
-                  alt={item.object_name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+            <div
+  key={item.id}
+  className="w-full rounded-2xl shadow-lg overflow-hidden group bg-white flex flex-col"
+>
+  {/* Product image */}
+  <div className="w-full h-[40vh] overflow-hidden">
+    <img
+      src={item.photo_path}
+      alt={item.object_name}
+      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+    />
+  </div>
 
-                {/* Overlay content */}
-                <div className="absolute inset-0 flex items-end">
-                  <div className="w-full bg-white p-4 flex flex-col items-center text-center gap-2">
-                    {item.discount && (
-                      <p className="text-yellow-500 text-sm">{item.discount}</p>
-                    )}
+  {/* Bottom content */}
+  <div className="p-4 flex flex-col items-center text-center gap-2 bg-white">
+    {item.discount && (
+      <p className="text-yellow-500 text-sm">{item.discount}</p>
+    )}
 
-                    {data.company?.isOnline === 1 && (
-                      <>
-                        {context?.isLoggined ? (
-                          context?.userInfo?.subscription === 1 ? (
-                            <button
-                              onClick={handleOrder}
-                              className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition w-full max-w-xs"
-                            >
-                              შეკვეთა
-                            </button>
-                          ) : (
-                            <Link
-                              to="/profile"
-                              className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition w-full max-w-xs"
-                            >
-                              ჩართე გამოწერა
-                            </Link>
-                          )
-                        ) : (
-                          <Link
-                            to="/login"
-                            className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition w-full max-w-xs"
-                          >
-                            შესვლა
-                          </Link>
-                        )}
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
+    {data.company?.isOnline === 1 && (
+      <>
+        {context?.isLoggined ? (
+          context?.userInfo?.subscription === 1 ? (
+            <button
+              onClick={handleOrder}
+              className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition w-full max-w-xs"
+            >
+              შეკვეთა
+            </button>
+          ) : (
+            <Link
+              to="/profile"
+              className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition w-full max-w-xs"
+            >
+              ჩართე გამოწერა
+            </Link>
+          )
+        ) : (
+          <Link
+            to="/login"
+            className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition w-full max-w-xs"
+          >
+            შესვლა
+          </Link>
+        )}
+      </>
+    )}
+  </div>
+</div>
+
             ))}
           </div>
         </>
