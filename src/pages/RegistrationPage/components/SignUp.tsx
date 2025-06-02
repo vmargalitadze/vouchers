@@ -6,34 +6,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { API } from "../../../baseAPI";
 import InputMessageComp from "../../../components/InputMessage";
 import { Checkbox } from "@mui/material";
-import image1 from'../../../assets/rules/rules-images-0.jpg'
-import image2 from "../../../assets/rules/rules-images-1.jpg";
-import image3 from "../../../assets/rules/rules-images-2.jpg";
-import image4 from "../../../assets/rules/rules-images-3.jpg";
-import image5 from "../../../assets/rules/rules-images-4.jpg";
-import image6 from "../../../assets/rules/rules-images-5.jpg";
-import image7 from'../../../assets/rules/rules-images-6.jpg'
-import image8 from "../../../assets/rules/rules-images-7.jpg";
-import image9 from "../../../assets/rules/rules-images-8.jpg";
-import image10 from "../../../assets/rules/rules-images-9.jpg";
-import image11 from'../../../assets/rules/rules-images-10.jpg'
-import image12 from'../../../assets/rules/rules-images-11.jpg'
 
-import anotherImage1 from '../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-0.jpg'
-import anotherImage2 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-1.jpg";
-import anotherImage3 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-2.jpg";
-import anotherImage4 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-3.jpg";
-import anotherImage5 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-4.jpg";
-import anotherImage6 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-5.jpg";
-import anotherImage7 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-6.jpg";
-import anotherImage8 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-7.jpg";
-import anotherImage9 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-8.jpg";
-import anotherImage10 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-9.jpg";
-import anotherImage11 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-10.jpg";
-import anotherImage12 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-11.jpg";
-import anotherImage13 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-12.jpg";
-import anotherImage14 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-13.jpg";
-import anotherImage15 from "../../../assets/rules/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740-images-14.jpg";
 import { Link } from "react-router-dom";
 
 
@@ -45,39 +18,9 @@ export default function SignUp(props: { setIsLogging: Function }) {
     message: string;
   }
 
-  const anotherImages = [
-    anotherImage1,
-    anotherImage2,
-    anotherImage3,
-    anotherImage4,
-    anotherImage5,
-    anotherImage6,
-    anotherImage7,
-    anotherImage8,
-    anotherImage9,
-    anotherImage10,
-    anotherImage11,
-    anotherImage12,
-    anotherImage13,
-    anotherImage14,
-    anotherImage15,
-  ];
 
-  const [isAnotherModalOpen, setIsAnotherModalOpen] = useState(false);
-const rulesImages = [
-  image1,
-  image2,
-  image3,
-  image4,
-  image5,
-  image6,
-  image7,
-  image8,
-  image9,
-  image10,
-  image11,
-  image12,
-];
+
+
 
   const [submitInfo, setSubmitInfo] = useState<SubmitInfoInterface>({
     messageColorBoolean: undefined,
@@ -125,7 +68,7 @@ const rulesImages = [
   };
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [isPdfOpen, setIsPdfOpen] = useState<boolean>(false);
+ 
 
   return (
     <div className="flex flex-col justify-center items-center ">
@@ -215,28 +158,17 @@ const rulesImages = [
     )}
 
     <div className="flex flex-col gap-2">
-      <div className="flex items-start gap-2">
-        <Checkbox required className="ckeck border !border-yellow-300 mt-1" />
-        <p className="text-sm">
-          ვეთანხმები{" "}
-          <span
-            className="underline text-yellow-500 cursor-pointer"
-            onClick={() => setIsPdfOpen(true)}
-          >
-            პირობებს
-          </span>
-        </p>
-      </div>
+    
 
       <div className="flex items-start gap-2">
         <Checkbox required className="ckeck border !border-yellow-300 mt-1" />
         <p className="text-sm">
-          წაიკითხე{" "}
+          ვეთანხმები{" "}
           <Link
             className="underline text-yellow-500 cursor-pointer"
             to={"/rules"}
           >
-            წესები
+            წესებს და პირობებს
           </Link>
         </p>
       </div>
@@ -245,12 +177,12 @@ const rulesImages = [
         <Checkbox required className="ckeck border !border-yellow-300 mt-1" />
         <p className="text-sm">
           ვეთანხმები{" "}
-          <span
+         <Link
             className="underline text-yellow-500 cursor-pointer"
-            onClick={() => setIsAnotherModalOpen(true)}
+            to={"/politic"}
           >
-            მონაცემთა დაცვის პოლიტიკას
-          </span>
+           მონაცემთა დაცვის პოლიტიკას
+          </Link>
         </p>
       </div>
     </div>
@@ -262,56 +194,8 @@ const rulesImages = [
     />
   </form>
 
-      {isPdfOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className=" w-full h-full overflow-auto relative z-10">
-            <button
-              onClick={() => setIsPdfOpen(false)}
-              className="absolute top-5 right-5 text-white px-3 py-1 rounded z-20"
-            >
-              დახურვა
-            </button>
-            <h2 className="text-lg font-semibold text-center mt-6 mb-4">
-              წესები და პირობები
-            </h2>
-            <div className="space-y-5 px-5 pb-10">
-              {rulesImages.map((imageSrc, index) => (
-                <img
-                  key={index}
-                  src={imageSrc}
-                  alt={`წესები გვერდი ${index + 1}`}
-                  className="w-full h-auto object-scale-down"
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-      {isAnotherModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="w-full h-full overflow-auto relative z-10">
-            <button
-              onClick={() => setIsAnotherModalOpen(false)}
-              className="absolute top-5 right-5 text-white px-3 py-1 rounded z-20"
-            >
-              დახურვა
-            </button>
-            <h2 className="text-lg font-semibold text-center mt-6 mb-4">
-              დამატებითი ინფორმაცია
-            </h2>
-            <div className="space-y-5 px-5 pb-10">
-              {anotherImages.map((imgSrc, index) => (
-                <img
-                  key={index}
-                  src={imgSrc}
-                  alt={`დამატებითი გვერდი ${index + 1}`}
-                  className="w-full h-auto object-scale-down"
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+  
+   
 
       
     </div>

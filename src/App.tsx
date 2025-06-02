@@ -20,6 +20,7 @@ import Footer from "./components/Footer.tsx";
 import Send from "./pages/Send/Send.tsx";
 import Rules from "./pages/Rules/Rules";
 import All from "./pages/All/All.tsx";
+import Politic from "./pages/Politic/Politic.tsx";
 function App() {
   const navigate = useNavigate();
   const location = useLocation(); // To get the current route path
@@ -119,6 +120,7 @@ function App() {
         <Route path="/company/:id" element={<CompanyPage />} />
         <Route path="/send" element={<Send />} />
          <Route path="/rules" element={<Rules />} />
+         <Route path="/politic" element={<Politic />} />
         <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
         <Route path="/PaymentFailed" element={<PaymentFailed />} />
       </Routes>

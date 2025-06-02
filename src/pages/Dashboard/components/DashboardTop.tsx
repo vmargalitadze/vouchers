@@ -86,7 +86,7 @@ export default function DashboardTop() {
               slidesPerView={1} // default for small screens
               spaceBetween={10}
               freeMode={false}
-              autoplay={{ delay: 1500, disableOnInteraction: false }}
+              autoplay={{ delay: 900, disableOnInteraction: false }}
               modules={[FreeMode, Pagination, Autoplay]}
               className="mySwiper max-w-3xl w-full"
               breakpoints={{
@@ -99,7 +99,7 @@ export default function DashboardTop() {
                   spaceBetween: 12,
                 },
                 1024: {
-                  slidesPerView: 3,
+                  slidesPerView: 2,
                   spaceBetween: 16,
                 },
               }}

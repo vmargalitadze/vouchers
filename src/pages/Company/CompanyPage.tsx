@@ -117,7 +117,7 @@ const CompanyPage: React.FC = () => {
       fetchCompanyData();
     }
   }, [id]);
-  console.log(context?.userInfo);
+  console.log(data.items);
 
   return (
     <div className="p-6  max-w-6xl mx-auto">
@@ -220,7 +220,7 @@ const CompanyPage: React.FC = () => {
                   <div className="relative w-full overflow-hidden rounded-xl shadow-lg">
                   <img
                     alt={data.company?.object_name || "Company"}
-                    src={data.company?.photos[0]}
+                     src={item.photo_path}
                     className="w-full h-72 sm:h-80 md:h-[400px] object-cover rounded-xl shadow-lg"
                   />
                 </div>
