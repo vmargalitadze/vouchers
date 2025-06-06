@@ -42,12 +42,17 @@ function All() {
             className="w-[20vw] sm:w-full md:w-full flex flex-col p-3"
           >
             <div className="bg-white rounded-lg shadow-lg overflow-hidden flex-1 flex flex-col">
-              <div
-                className="bg-cover h-48"
-                style={{
-                  backgroundImage: `url(${company.photos})`,
-                }}
-              ></div>
+              <Link
+                to={`/company/${company.id}`}
+                className="hover:opacity-80 transition-opacity"
+              >
+                <div
+                  className="bg-cover h-48"
+                  style={{
+                    backgroundImage: `url(${company.photos})`,
+                  }}
+                ></div>
+              </Link>
               <div className="p-4 justify-center text-center flex flex-col">
                 <div className="flex justify-center mb-4">
                   <Link
