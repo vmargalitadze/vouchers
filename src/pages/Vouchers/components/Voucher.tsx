@@ -72,7 +72,7 @@ export default function Voucher() {
       </Helmet>
 
       <h1 className="text-2xl font-bold mb-4">კატეგორია : {id}</h1>
-      <div className="h-screen">
+      <div className="min-h-screen flex flex-col">
         <select
           className="bg-white text-black mt-12 p-2 rounded-lg mb-4 w-full"
           value={selectedCity}

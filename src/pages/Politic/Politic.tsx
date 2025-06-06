@@ -1,31 +1,53 @@
 import { useState, useEffect } from "react";
 import SinglePagePDFViewer from "../../components/SinglePage";
-
+import { useNavigate } from "react-router-dom";
 function Politic() {
   const [error, setError] = useState<string | null>(null);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
   useEffect(() => {
     // Check if the PDF is accessible
-    fetch("/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740.pdf")
+    fetch("/politic.pdf")
       .then((response) => {
         if (!response.ok) {
           throw new Error("PDF ფაილი ვერ მოიძებნა");
         }
-        setPdfUrl("/პერსონალურ_მონაცემთა_დაცვის_პოლიტიკა_250305_003740.pdf");
+        setPdfUrl("/politic.pdf");
       })
       .catch((err) => {
         console.error("Error checking PDF:", err);
         setError(err.message);
       });
   }, []);
-
+  const navigate = useNavigate();
   return (
     <>
       <div className="flex flex-col min-h-screen w-full">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold py-4 text-center mt-16 sm:mt-20">
-          წესები და პირობები
-        </h1>
+        <div className="pt-10 mb-10 sm:mt-20 px-4">
+          <div className=" flex-col hidden sm:flex items-center  space-y-4">
+            <h1 className="text-xl font-extrabold text-white text-center">
+              პერსონალურ მონაცემთა დაცვის პოლიტკა
+            </h1>
+            <button
+              onClick={() => navigate(-1)}
+              className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black text-sm font-medium rounded-full shadow-md transition duration-200"
+            >
+              ← უკან დაბრუნება
+            </button>
+          </div>
+        </div>
+        <div className="relative flex sm:hidden items-center h-20 mt-16 sm:mt-20 pr-1 pl-[8rem] sm:pl-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="absolute  sm:left-6 px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black text-sm sm:text-base font-medium rounded-full shadow-md transition duration-200"
+          >
+            ← უკან დაბრუნება
+          </button>
+
+          <h1 className="mx-auto text-xl sm:text-2xl md:text-3xl font-extrabold text-white text-center">
+            პერსონალურ მონაცემთა დაცვის პოლიტკა
+          </h1>
+        </div>
 
         {error ? (
           <div className="text-red-500 text-center p-3 sm:p-4 bg-red-50 rounded-lg mx-4">

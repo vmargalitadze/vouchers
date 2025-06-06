@@ -41,17 +41,13 @@ function All() {
             key={company.id}
             className="w-[20vw] sm:w-full md:w-full flex flex-col p-3"
           >
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden flex-1 flex flex-col">
-              <Link
-                to={`/company/${company.id}`}
-                className="hover:opacity-80 transition-opacity"
-              >
-                <div
-                  className="bg-cover h-48"
-                  style={{
-                    backgroundImage: `url(${company.photos})`,
-                  }}
-                ></div>
+            <div className="bg-white  shadow-lg overflow-hidden flex-1 flex flex-col">
+              <Link to={`/company/${company.id}`} className="block mb-2">
+                <img
+                  src={company.photos}
+                  alt={company.object_name || "Company Image"}
+                  className="w-full h-60 sm:h-[310px] object-contain rounded-md"
+                />
               </Link>
               <div className="p-4 justify-center text-center flex flex-col">
                 <div className="flex justify-center mb-4">
