@@ -60,8 +60,8 @@ function App() {
      "/cards/:id",
      "/company/:id",
      "/send",
-     "/PaymentSuccess",
-     "/PaymentFailed"
+   
+  
    ];
 
    const isOnProtectedRoute = protectedRoutes.some((route) =>
@@ -86,7 +86,7 @@ function App() {
          }
        } catch (error) {
          console.error("Error verifying token:", error);
-         localStorage.removeItem("Token");
+      
          if (isOnProtectedRoute) {
            navigate("/");
          }

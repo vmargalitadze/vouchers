@@ -14,50 +14,53 @@ function PaymentFailed() {
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-
+  
     const verifyAuthAndRedirect = async () => {
       try {
         const token = localStorage.getItem("Token");
         if (!token) {
           throw new Error("ავტორიზაცია ვერ მოხერხდა");
         }
-
+  
         const response = await axios.post(`${API}/users`, {
           token,
           language: context?.defaultLanguage,
         });
-
+  
         if (context?.setUserInfo) {
           context.setUserInfo(response.data.userData[0]);
         }
         if (context?.setIsLoggined) {
           context.setIsLoggined(true);
         }
-
+  
         setRedirecting(true);
         timer = setTimeout(() => {
           navigate("/Dashboard");
         }, 3000);
       } catch (err: any) {
-        console.error("Error:", err);
-        setError(err.message || "ავტორიზაცია ვერ მოხერხდა");
-    
-        navigate("/");
+        console.error("Error verifying token:", err);
+        setError("გადახდა ჩაიშალა, მაგრამ ავტორიზაცია შენარჩუნებულია.");
+        setRedirecting(true);
+        timer = setTimeout(() => {
+          navigate("/Dashboard");
+        }, 3000);
       }
     };
-
+  
     if (orderId) {
       verifyAuthAndRedirect();
     } else {
       navigate("/Dashboard");
     }
-
+  
     return () => {
       if (timer) {
         clearTimeout(timer);
       }
     };
   }, [orderId, navigate, context]);
+  
 
   if (error) {
     return (
