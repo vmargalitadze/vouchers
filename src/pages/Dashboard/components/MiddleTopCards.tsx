@@ -7,7 +7,7 @@ export default function MiddleTopCards() {
 
   return (
 
-   <div className="flex flex-col items-center p-6  rounded-xl shadow-lg gap-5 w-full md:basis-1/2 text-center text-white transition-shadow hover:shadow-yellow-500/50">
+   <div className="flex flex-col items-center p-6  rounded-xl shadow-lg gap-5 w-full md:basis-1/2 text-center text-white ">
       {/* Card 1: Become a Partner */}
       <div className="flex flex-col items-center p-6 bg-gray-800 rounded-xl shadow-lg gap-5 w-full md:basis-1/2 text-center text-white transition-shadow hover:shadow-yellow-500/50">
         <img src={partner} alt="Become our partner illustration" className="w-24 sm:w-32 h-auto mb-3" />

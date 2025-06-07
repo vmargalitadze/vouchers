@@ -1,4 +1,4 @@
-import { FaFacebook } from "react-icons/fa";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import test from "../../public/logo.png";
 function Footer() {
@@ -17,6 +17,14 @@ function Footer() {
             className="mx-4 text-white text-2xl hover:text-blue-600 transition-colors"
           >
             <FaFacebook />
+          </Link>
+          <Link
+            to="https://www.instagram.com/offerscard.ge/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mx-4 text-white text-2xl transition-colors hover:text-[#E1306C]"
+          >
+            <FaInstagram />
           </Link>
           {/* Right line */}
           <div className="flex-grow border-t border-gray-500"></div>
