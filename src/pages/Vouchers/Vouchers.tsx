@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { default as QRCode } from "qrcode.react";
 import { Helmet } from "react-helmet-async";
 import card from "../../assets/card.jpg";
+import { handlePayment } from "../../services/payment";
 
 const images: { [key: string]: string } = {
   მაღაზიები,
@@ -36,44 +37,16 @@ export default function Vouchers() {
         console.error("User info is not available.");
         return;
       }
-      const payload = {
+
+      const { redirectUrl } = await handlePayment({
         userId: context.userInfo.id,
         discount: context.userInfo.discount,
-        successUrl: "http://offerscard.ge/#/PaymentSuccess",
-        failUrl: "http://offerscard.ge/#/PaymentFailed",
-      };
-
-
-
-      const res = await axios.post(`${API}/users/bog-token`, payload, {
-        withCredentials: true,
       });
 
-
-
-      if (res.data.redirect?.href) {
-        const redirectUrl = res.data.redirect.href;
-
-
-        // URL Parsing to extract order_id
-        const urlParams = new URLSearchParams(new URL(redirectUrl).search);
-        const orderId = urlParams.get("order_id");
-
-        if (orderId) {
-    
-          // Redirect user with order_id in URL
-          window.location.href = redirectUrl;
-        } else {
-          console.error("order_id not found in redirect URL:", redirectUrl);
-        }
-      } else {
-        console.error("Redirect URL not found in response", res.data);
-      }
+      window.location.href = redirectUrl;
     } catch (error: any) {
-      console.error("Error during redirect:", error);
-      if (error.response) {
-        console.error("Error response from backend:", error.response.data);
-      }
+      console.error("Error during payment:", error);
+      // აქ შეგიძლიათ დაამატოთ შეტყობინების ჩვენება მომხმარებლისთვის
     }
   };
 
@@ -202,3 +175,4 @@ export default function Vouchers() {
     </div>
   );
 }
+
