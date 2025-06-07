@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { verifyPayment } from "../../services/payment";
+import { MyContext } from "../../Context/myContext";
+import axios from "axios";
+import { API } from "../../baseAPI";
 
 function PaymentSuccess() {
   const [searchParams] = useSearchParams();
@@ -8,6 +11,7 @@ function PaymentSuccess() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const context = useContext(MyContext);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -20,12 +24,34 @@ function PaymentSuccess() {
       }
 
       try {
+        // First verify the payment
         await verifyPayment(orderId);
+
+        // Then verify token and update user info
+        const token = localStorage.getItem("Token");
+        if (!token) {
+          throw new Error("ავტორიზაცია ვერ მოხერხდა");
+        }
+
+        const response = await axios.post(`${API}/users`, {
+          token,
+          language: context?.defaultLanguage,
+        });
+
+        if (context?.setUserInfo) {
+          context.setUserInfo(response.data.userData[0]);
+        }
+        if (context?.setIsLoggined) {
+          context.setIsLoggined(true);
+        }
+
         timer = setTimeout(() => {
           navigate("/Dashboard");
         }, 3000);
-      } catch (err) {
-        setError("გადახდის ვერიფიკაცია ვერ მოხერხდა. გთხოვთ დაგვიკავშირდით.");
+      } catch (err: any) {
+        console.error("Error:", err);
+        setError(err.message || "გადახდის ვერიფიკაცია ვერ მოხერხდა. გთხოვთ დაგვიკავშირდით.");
+        localStorage.removeItem("Token"); // Remove invalid token if any
       } finally {
         setLoading(false);
       }
@@ -38,7 +64,7 @@ function PaymentSuccess() {
         clearTimeout(timer);
       }
     };
-  }, [orderId, navigate]);
+  }, [orderId, navigate, context]);
 
   if (loading) {
     return (
