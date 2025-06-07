@@ -51,7 +51,7 @@ function PaymentSuccess() {
       } catch (err: any) {
         console.error("Error:", err);
         setError(err.message || "გადახდის ვერიფიკაცია ვერ მოხერხდა. გთხოვთ დაგვიკავშირდით.");
-        localStorage.removeItem("Token"); // Remove invalid token if any
+       
       } finally {
         setLoading(false);
       }

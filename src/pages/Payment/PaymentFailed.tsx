@@ -41,7 +41,7 @@ function PaymentFailed() {
       } catch (err: any) {
         console.error("Error:", err);
         setError(err.message || "ავტორიზაცია ვერ მოხერხდა");
-        localStorage.removeItem("Token"); // Remove invalid token if any
+    
         navigate("/");
       }
     };
