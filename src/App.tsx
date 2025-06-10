@@ -78,22 +78,48 @@ function App() {
 
  useEffect(() => {
    const protectedRoutes = [
-    
-
-    
-     "/PaymentSuccess",
-     "/PaymentFailed",
+     "/Profile",
+     "/cards",
+     "/cards/:id",
+     "/company/:id",
+     "/send",
+   
+  
    ];
 
    const isOnProtectedRoute = protectedRoutes.some((route) =>
      location.pathname.startsWith(route.replace(":id", ""))
    );
 
-   if (!context?.isLoggined && isOnProtectedRoute) {
-     navigate("/");
-   } else if (context?.isLoggined && location.pathname === "/Login") {
-     navigate("/Dashboard");
-   }
+   // Check token and update user info if needed
+   const checkAuthAndUpdateUser = async () => {
+     const token = localStorage.getItem("Token");
+     if (token && !context?.isLoggined) {
+       try {
+         const response = await axios.post(`${API}/users`, {
+           token,
+           language: context?.defaultLanguage,
+         });
+         
+         if (context?.setUserInfo) {
+           context.setUserInfo(response.data.userData[0]);
+         }
+         if (context?.setIsLoggined) {
+           context.setIsLoggined(true);
+         }
+       } catch (error) {
+         console.error("Error verifying token:", error);
+      
+         if (isOnProtectedRoute) {
+           navigate("/");
+         }
+       }
+     } else if (!token && isOnProtectedRoute) {
+       navigate("/");
+     }
+   };
+
+   checkAuthAndUpdateUser();
  }, [context?.isLoggined, location.pathname]);
 
   useEffect(() => {

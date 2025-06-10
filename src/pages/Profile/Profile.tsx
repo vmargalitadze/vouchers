@@ -5,6 +5,7 @@ import axios from "axios";
 import { API } from "../../baseAPI";
 import Loader from "../../components/Loader";
 import { Helmet } from "react-helmet";
+import { handlePayment } from "../../services/payment";
 
 export default function Profile() {
   const handleAutoSubscribe = async () => {
@@ -30,43 +31,16 @@ export default function Profile() {
         console.error("User info is not available.");
         return;
       }
-      const payload = {
+
+      const { redirectUrl } = await handlePayment({
         userId: context.userInfo.id,
         discount: context.userInfo.discount,
-        successUrl: "http://offerscard.ge/#/PaymentSuccess",
-        failUrl: "http://offerscard.ge/#/PaymentFailed",
-      };
-
-
-      const res = await axios.post(`${API}/users/bog-token`, payload, {
-        withCredentials: true,
       });
 
- 
-
-      if (res.data.redirect?.href) {
-        const redirectUrl = res.data.redirect.href;
-     
-
-        // URL Parsing to extract order_id
-        const urlParams = new URLSearchParams(new URL(redirectUrl).search);
-        const orderId = urlParams.get("order_id");
-
-        if (orderId) {
-      
-          // Redirect user with order_id in URL
-          window.location.href = redirectUrl;
-        } else {
-          console.error("order_id not found in redirect URL:", redirectUrl);
-        }
-      } else {
-        console.error("Redirect URL not found in response", res.data);
-      }
+      window.location.href = redirectUrl;
     } catch (error: any) {
-      console.error("Error during redirect:", error);
-      if (error.response) {
-        console.error("Error response from backend:", error.response.data);
-      }
+      console.error("Error during payment:", error);
+      setError("გადახდის ინიციალიზაცია ვერ მოხერხდა. გთხოვთ სცადეთ თავიდან.");
     }
   };
 
