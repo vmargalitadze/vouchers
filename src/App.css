@@ -8,17 +8,21 @@ body {
 .focused {
   box-shadow: inset 1px 1px 15px 1px gold;
 }
+.white-checkbox .MuiSvgIcon-root {
+  border: 1px solid white;
+  border-radius: 4px;
 
+}
 .modal-open {
   overflow: hidden !important;
 }
 
- .imagge{
+.imagge {
   height: 280vh !important;
 }
 .swiper-button-prev,
 .swiper-button-next {
-  color: #ca8a04 !important;  /* Tailwind text-yellow-600 */
+  color: #ca8a04 !important; /* Tailwind text-yellow-600 */
   padding-bottom: 150px !important;
 }
 
@@ -161,12 +165,11 @@ body {
   object-fit: cover !important;
 }
 
-.voucher-type-slide{
-  border-bottom:1px solid #f8b400;
+.voucher-type-slide {
+  border-bottom: 1px solid #f8b400;
   border-radius: 8px;
   padding: 2%;
 }
-
 
 /* Responsive Styles */
 @media (max-width: 500px) {
@@ -287,9 +290,8 @@ body {
   object-fit: cover;
 }
 
-
-.test{
- box-shadow: -1px -1px 174px 0px rgba(0,0,0,0.26) inset;
--webkit-box-shadow: -1px -1px 174px 0px rgba(0,0,0,0.26) inset;
--moz-box-shadow: -1px -1px 174px 0px rgba(0,0,0,0.26) inset;
+.test {
+  box-shadow: -1px -1px 174px 0px rgba(0, 0, 0, 0.26) inset;
+  -webkit-box-shadow: -1px -1px 174px 0px rgba(0, 0, 0, 0.26) inset;
+  -moz-box-shadow: -1px -1px 174px 0px rgba(0, 0, 0, 0.26) inset;
 }

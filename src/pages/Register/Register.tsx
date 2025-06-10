@@ -68,132 +68,125 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
-    <div className="flex min-h-screen flex-col justify-center items-center ">
-      <h1 className="text-2xl mt-12">რეგისტრაცია</h1>
-      <p>მიუთითეთ თქვენი ინფორმაცია</p>
-      <form
-        className="flex flex-col gap-5 w-full max-w-md"
-        onSubmit={handleFormSubmit}
-      >
-        <label>
-          <p className="mb-2 mx-0.5">სახელი</p>
-          <input
-            name="username"
-            type="text"
-            className="w-full h-[50px] rounded-md border border-gray-600 outline-none px-3 text-sm bg-transparent"
-            onChange={handleInput}
-            value={formValue.username}
-            required
-          />
-        </label>
-
-        <label>
-          <p className="mb-2 mx-0.5">მეილი</p>
-          <input
-            name="email"
-            type="text"
-            className="w-full h-[50px] rounded-md border border-gray-600 outline-none px-3 text-sm bg-transparent"
-            onChange={handleInput}
-            value={formValue.email}
-            required
-          />
-        </label>
-
-        <label>
-          <p className="mb-2 mx-0.5">პაროლი</p>
-          <div className="relative">
-            <input
-              name="password"
-              type={showPassword ? "text" : "password"}
-              className="w-full h-[50px] rounded-md border border-gray-600 pr-10 outline-none px-3 text-sm bg-transparent"
-              onChange={handleInput}
-              value={formValue.password}
-              required
-              min={5}
-            />
-            {showPassword ? (
-              <FaEye
-                className="cursor-pointer text-md absolute right-3 top-1/2 transform -translate-y-1/2"
-                onClick={() => setShowPassword((current) => !current)}
-              />
-            ) : (
-              <FaEyeSlash
-                className="cursor-pointer text-lg absolute right-3 top-1/2 transform -translate-y-1/2"
-                onClick={() => setShowPassword((current) => !current)}
-              />
-            )}
-          </div>
-        </label>
-
-        <label>
-          <p className="mb-2 mx-0.5">მოსაწვევი კოდი (არასავალდებულო)</p>
-          <input
-            name="referralCode"
-            type="text"
-            className="w-full h-[50px] rounded-md border border-gray-600 outline-none px-3 text-sm bg-transparent"
-            onChange={handleInput}
-            value={formValue.referralCode}
-          />
-        </label>
-
-        <label>
-          <p className="mb-2 mx-0.5">პრომო კოდი (არრასავალდებულო)</p>
-          <input
-            name="promoCode"
-            type="text"
-            className="w-full h-[50px] rounded-md border border-gray-600 outline-none px-3 text-sm bg-transparent"
-            onChange={handleInput}
-            value={formValue.promoCode}
-          />
-        </label>
-
-        {submitInfo.messageColorBoolean !== undefined && (
-          <InputMessageComp
-            boolean={submitInfo.messageColorBoolean}
-            message={submitInfo.message}
-          />
-        )}
-
-        <div className="flex flex-col gap-2">
-          <div className="flex items-start gap-2">
-            <Checkbox
-              required
-              className="ckeck border !border-yellow-300 mt-1"
-            />
-            <p className="text-sm">
-              ვეთანხმები{" "}
-              <Link
-                className="underline text-yellow-500 cursor-pointer"
-                to={"/rules"}
-              >
-                წესებს და პირობებს
-              </Link>
-            </p>
-          </div>
-
-          <div className="flex items-start gap-2">
-            <Checkbox
-              required
-              className="ckeck border !border-yellow-300 mt-1"
-            />
-            <p className="text-sm">
-              ვეთანხმები{" "}
-              <Link
-                className="underline text-yellow-500 cursor-pointer"
-                to={"/politic"}
-              >
-                მონაცემთა დაცვის პოლიტიკას
-              </Link>
-            </p>
-          </div>
+    <div className="flex min-h-screen text-black mt-7 mb-7 py-10 px-4 sm:px-6 lg:px-8 justify-center items-center">
+      <div className="w-full max-w-md space-y-6">
+        <div className="text-center">
+          <h1 className="text-2xl text-white font-semibold">რეგისტრაცია</h1>
+          <p className="text-sm text-white mt-1">
+            მიუთითეთ თქვენი ინფორმაცია
+          </p>
         </div>
 
-        <input
-          className="w-full py-5 bg-yellowButton rounded-md shadow-yellowShadow mt-5 outline-none cursor-pointer hover:bg-yellowButtonHover transition-all"
-          value={"რეგისტრაცია"}
-          type="submit"
-        />
-      </form>
+        <form className="flex  flex-col gap-5" onSubmit={handleFormSubmit}>
+          <label>
+            <p className="mb-1 text-white">სახელი</p>
+            <input
+              name="username"
+              type="text"
+              className="w-full h-[50px] rounded-md border border-gray-300 focus:border-yellow-400 outline-none px-3 text-sm bg-white dark:bg-transparent"
+              onChange={handleInput}
+              value={formValue.username}
+              required
+            />
+          </label>
+
+          <label>
+            <p className="mb-1 text-white">მეილი</p>
+            <input
+              name="email"
+              type="email"
+              className="w-full h-[50px] rounded-md border border-gray-300 focus:border-yellow-400 outline-none px-3 text-sm bg-white dark:bg-transparent"
+              onChange={handleInput}
+              value={formValue.email}
+              required
+            />
+          </label>
+
+          <label>
+            <p className="mb-1 text-white">პაროლი</p>
+            <div className="relative">
+              <input
+                name="password"
+                type={showPassword ? "text" : "password"}
+                className="w-full h-[50px] rounded-md border border-gray-300 focus:border-yellow-400 pr-10 outline-none px-3 text-sm bg-white dark:bg-transparent"
+                onChange={handleInput}
+                value={formValue.password}
+                required
+                min={5}
+              />
+              {showPassword ? (
+                <FaEye
+                  className="cursor-pointer text-md absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                  onClick={() => setShowPassword((current) => !current)}
+                />
+              ) : (
+                <FaEyeSlash
+                  className="cursor-pointer text-md absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                  onClick={() => setShowPassword((current) => !current)}
+                />
+              )}
+            </div>
+          </label>
+
+          <label>
+            <p className="mb-1 text-white">მოსაწვევი კოდი (არასავალდებულო)</p>
+            <input
+              name="referralCode"
+              type="text"
+              className="w-full h-[50px] rounded-md border border-gray-300 focus:border-yellow-400 outline-none px-3 text-sm bg-white dark:bg-transparent"
+              onChange={handleInput}
+              value={formValue.referralCode}
+            />
+          </label>
+
+          <label>
+            <p className="mb-1 text-white">პრომო კოდი (არასავალდებულო)</p>
+            <input
+              name="promoCode"
+              type="text"
+              className="w-full h-[50px] rounded-md border border-gray-300 focus:border-yellow-400 outline-none px-3 text-sm bg-white dark:bg-transparent"
+              onChange={handleInput}
+              value={formValue.promoCode}
+            />
+          </label>
+
+          {submitInfo.messageColorBoolean !== undefined && (
+            <InputMessageComp
+              boolean={submitInfo.messageColorBoolean}
+              message={submitInfo.message}
+            />
+          )}
+
+          <div className="flex flex-col gap-2">
+            <label className="flex  items-start gap-2 text-sm">
+            <Checkbox required className="white-checkbox mt-1" />
+              <span className="text-white">
+                ვეთანხმები{" "}
+                <Link to="/rules" className="underline text-yellow-500">
+                  წესებს და პირობებს
+                </Link>
+              </span>
+            </label>
+
+            <label className="flex items-start gap-2 text-sm">
+               <Checkbox required className="white-checkbox mt-1" />
+              <span className="text-white">
+                ვეთანხმები{" "}
+                <Link to="/politic" className="underline text-yellow-500">
+                  მონაცემთა დაცვის პოლიტიკას
+                </Link>
+              </span>
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-4 bg-yellowButton text-black font-medium rounded-md shadow-yellowShadow hover:bg-yellowButtonHover transition-all"
+          >
+            რეგისტრაცია
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

@@ -80,8 +80,7 @@ function App() {
    const protectedRoutes = [
      "/Profile",
      "/cards",
-     "/cards/:id",
-     "/company/:id",
+
      "/send",
    
   
@@ -115,7 +114,7 @@ function App() {
          }
        }
      } else if (!token && isOnProtectedRoute) {
-       navigate("/");
+       navigate("/Login");
      }
    };
 
