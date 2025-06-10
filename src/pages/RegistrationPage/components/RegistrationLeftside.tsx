@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 
 export default function RegistrationLeftside(props: {
   isLogging: boolean;

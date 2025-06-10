@@ -1,7 +1,7 @@
 import axios from "axios";
 import "./App.css";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
+
 import Navbar from "./components/Navbar";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
@@ -21,6 +21,8 @@ import Send from "./pages/Send/Send.tsx";
 import Rules from "./pages/Rules/Rules";
 import All from "./pages/All/All.tsx";
 import Politic from "./pages/Politic/Politic.tsx";
+import Login from "./pages/Login/Login.tsx";
+import Register from "./pages/Register/Register.tsx";
 function App() {
   const navigate = useNavigate();
   const location = useLocation(); // To get the current route path
@@ -36,22 +38,43 @@ function App() {
     );
   }, [context?.defaultLanguage]);
 
+  // Authentication state check effect
   useEffect(() => {
-    axios
-      .post(`${API}/users`, {
-        token: localStorage.getItem("Token"),
-        language: context?.defaultLanguage,
-      })
-      .then((res) => {
-        if (context?.setUserInfo) {
-          context.setUserInfo(res.data.userData[0]);
-        }
-       
-        if (context?.setNotifications) {
-          context.setNotifications(res.data.notifications);
-        }
-      });
-  }, []);
+    const checkAuthState = async () => {
+      const token = localStorage.getItem("Token");
+      
+      if (!token) {
+        if (context?.setIsLoggined) context.setIsLoggined(false);
+        if (context?.setUserInfo) context.setUserInfo(null);
+        if (context?.setNotifications) context.setNotifications([]);
+        return;
+      }
+
+      try {
+        const response = await axios.post(`${API}/users`, {
+          token: token,
+          language: context?.defaultLanguage,
+        });
+
+        if (context?.setIsLoggined) context.setIsLoggined(true);
+        if (context?.setUserInfo) context.setUserInfo(response.data.userData[0]);
+        if (context?.setNotifications) context.setNotifications(response.data.notifications || []);
+      } catch (error) {
+        // If token is invalid, clear all auth data
+        localStorage.removeItem("Token");
+        localStorage.removeItem("dailyOrderCount");
+        localStorage.removeItem("orderCountDate");
+        
+        if (context?.setIsLoggined) context.setIsLoggined(false);
+        if (context?.setUserInfo) context.setUserInfo(null);
+        if (context?.setNotifications) context.setNotifications([]);
+        
+        console.error("Token validation failed:", error);
+      }
+    };
+
+    checkAuthState();
+  }, [context?.setIsLoggined, context?.setUserInfo, context?.defaultLanguage, context?.setNotifications]);
 
  useEffect(() => {
    const protectedRoutes = [
@@ -110,7 +133,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Navigate to="/Dashboard" replace />} />
-        <Route path="/Login" element={<RegistrationPage />} />
+ 
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/FAQ" element={<FAQ />} />
         <Route path="/All" element={<All />} />
@@ -120,6 +143,8 @@ function App() {
         <Route path="/company/:id" element={<CompanyPage />} />
         <Route path="/send" element={<Send />} />
          <Route path="/rules" element={<Rules />} />
+         <Route path="/Login" element={<Login />} />
+         <Route path="/register" element={<Register />} />
          <Route path="/politic" element={<Politic />} />
         <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
         <Route path="/PaymentFailed" element={<PaymentFailed />} />

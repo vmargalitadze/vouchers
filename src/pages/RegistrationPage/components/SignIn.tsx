@@ -12,7 +12,7 @@ interface loginTypes {
   userEmail: string;
 }
 
-export default function SignUp() {
+export default function SignIn() {
   const context = useContext(MyContext);
 
   const [userTOKEN, setUserTOKEN] = useState("");

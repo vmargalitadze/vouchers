@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useMemo } from "react";
+import { useContext, useEffect, useState, useMemo, useCallback } from "react";
 import logout from "../assets/logout.svg";
 import { MyContext } from "../Context/myContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -11,6 +11,8 @@ export default function Navbar() {
   const [loading, setLoading] = useState(true);
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(Boolean(localStorage.getItem("Token")));
+  const [username, setUsername] = useState(context?.userInfo?.username || "");
 
   const links = useMemo(
     () => [
@@ -43,7 +45,47 @@ export default function Navbar() {
     document.body.style.overflow = isOpen ? "hidden" : "unset";
   }, [isOpen]);
 
-  const isAuthenticated = Boolean(context?.userInfo?.username);
+  useEffect(() => {
+    console.log('Navbar Auth State:', {
+      contextIsLoggined: context?.isLoggined,
+      contextUsername: context?.userInfo?.username,
+      localIsAuthenticated: isAuthenticated,
+      localUsername: username
+    });
+
+    const token = localStorage.getItem("Token");
+    const isLoggedIn = Boolean(token && context?.isLoggined);
+    
+    setIsAuthenticated(isLoggedIn);
+    if (context?.userInfo?.username) {
+      setUsername(context.userInfo.username);
+    }
+  }, [context?.isLoggined, context?.userInfo]);
+
+  const handleLogout = useCallback(() => {
+    // Clear all auth-related data from localStorage
+    localStorage.removeItem("Token");
+    localStorage.removeItem("dailyOrderCount");
+    localStorage.removeItem("orderCountDate");
+    
+    // Reset context states
+    if (context?.setIsLoggined) {
+      context.setIsLoggined(false);
+    }
+    if (context?.setUserInfo) {
+      context.setUserInfo(null);
+    }
+    if (context?.setNotifications) {
+      context.setNotifications([]);
+    }
+    
+    // Update local state
+    setIsAuthenticated(false);
+    setUsername("");
+    
+    // Redirect to login page
+    navigate("/");
+  }, [context, navigate]);
 
   if (loading) {
     return (
@@ -75,7 +117,7 @@ export default function Navbar() {
             {!isAuthenticated ? (
               <button
                 onClick={() => navigate("/login")}
-                className="flex items-center gap-2 text-yellow-500 hover:text-yellow-600 transition-colors duration-200 text-sm font-medium px-3 py-1 rounded "
+                className="flex items-center gap-2 text-yellow-500 hover:text-yellow-600 transition-colors duration-200 text-sm font-medium px-3 py-1 rounded"
               >
                 შესვლა / რეგისტრაცია
               </button>
@@ -86,17 +128,10 @@ export default function Navbar() {
                   className="flex items-center gap-2 text-gray-300 hover:text-yellow-500 transition-colors duration-200"
                 >
                   <i className="fa-regular fa-user text-yellow-500"></i>
-                  <span className="text-sm">{context?.userInfo?.username}</span>
+                  <span className="text-sm">{username}</span>
                 </Link>
                 <button
-                  onClick={() => {
-                    localStorage.removeItem("Token");
-
-                    context?.setUserInfo?.(null); // წაშალე user info
-                    context?.setIsLoggined?.(false); // აუცილებლად შეცვალე login სტატუსი
-
-                    navigate("/dashboard"); // გადაამისამართე login გვერდზე (არ dashboard-ზე)
-                  }}
+                  onClick={handleLogout}
                   className="text-gray-300 hover:text-yellow-500 transition-colors duration-200"
                 >
                   <img
@@ -149,7 +184,7 @@ export default function Navbar() {
                 onClick={() => setIsOpen(false)}
               >
                 <i className="fa-regular fa-user text-yellow-500"></i>
-                <span>{context?.userInfo?.username}</span>
+                <span>{username}</span>
               </Link>
             )}
             {links.map((link, i) => (

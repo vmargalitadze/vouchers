@@ -1,0 +1,199 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-types */
+import axios from "axios";
+import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { API } from "../../baseAPI";
+import InputMessageComp from "../../components/InputMessage";
+import { Checkbox } from "@mui/material";
+
+import { Link, useNavigate } from "react-router-dom";
+
+export default function Register() {
+  interface SubmitInfoInterface {
+    messageColorBoolean: boolean | undefined;
+    message: string;
+  }
+
+  const [submitInfo, setSubmitInfo] = useState<SubmitInfoInterface>({
+    messageColorBoolean: undefined,
+    message: "",
+  });
+
+  const [formValue, setFormValue] = useState({
+    username: "",
+    referralCode: "",
+    email: "",
+    password: "",
+    promoCode: "",
+  });
+  const navigate = useNavigate();
+  const handleInput = (e: any) => {
+    const { name, value } = e.target;
+    setFormValue({ ...formValue, [name]: value });
+  };
+
+  const handleFormSubmit = (e: any) => {
+    e.preventDefault();
+
+    axios
+      .post(`${API}/auth/register`, {
+        username: formValue.username,
+        password: formValue.password,
+        email: formValue.email,
+        referralCode: formValue.referralCode || null,
+        promo_code: formValue.promoCode || "",
+        language: "GE",
+      })
+      .then((res: any) => {
+        setSubmitInfo({
+          messageColorBoolean: true,
+          message: res.data.message,
+        });
+        navigate("/login");
+      })
+      .catch((err: any) => {
+        const errorMessage =
+          err.response?.data || "დაფიქსირდა შეცდომა, გთხოვთ სცადოთ თავიდან";
+
+        setSubmitInfo({
+          messageColorBoolean: false,
+          message: errorMessage,
+        });
+
+        console.error("Registration error:", err); //
+      });
+  };
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  return (
+    <div className="flex min-h-screen flex-col justify-center items-center ">
+      <h1 className="text-2xl mt-12">რეგისტრაცია</h1>
+      <p>მიუთითეთ თქვენი ინფორმაცია</p>
+      <form
+        className="flex flex-col gap-5 w-full max-w-md"
+        onSubmit={handleFormSubmit}
+      >
+        <label>
+          <p className="mb-2 mx-0.5">სახელი</p>
+          <input
+            name="username"
+            type="text"
+            className="w-full h-[50px] rounded-md border border-gray-600 outline-none px-3 text-sm bg-transparent"
+            onChange={handleInput}
+            value={formValue.username}
+            required
+          />
+        </label>
+
+        <label>
+          <p className="mb-2 mx-0.5">მეილი</p>
+          <input
+            name="email"
+            type="text"
+            className="w-full h-[50px] rounded-md border border-gray-600 outline-none px-3 text-sm bg-transparent"
+            onChange={handleInput}
+            value={formValue.email}
+            required
+          />
+        </label>
+
+        <label>
+          <p className="mb-2 mx-0.5">პაროლი</p>
+          <div className="relative">
+            <input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              className="w-full h-[50px] rounded-md border border-gray-600 pr-10 outline-none px-3 text-sm bg-transparent"
+              onChange={handleInput}
+              value={formValue.password}
+              required
+              min={5}
+            />
+            {showPassword ? (
+              <FaEye
+                className="cursor-pointer text-md absolute right-3 top-1/2 transform -translate-y-1/2"
+                onClick={() => setShowPassword((current) => !current)}
+              />
+            ) : (
+              <FaEyeSlash
+                className="cursor-pointer text-lg absolute right-3 top-1/2 transform -translate-y-1/2"
+                onClick={() => setShowPassword((current) => !current)}
+              />
+            )}
+          </div>
+        </label>
+
+        <label>
+          <p className="mb-2 mx-0.5">მოსაწვევი კოდი (არასავალდებულო)</p>
+          <input
+            name="referralCode"
+            type="text"
+            className="w-full h-[50px] rounded-md border border-gray-600 outline-none px-3 text-sm bg-transparent"
+            onChange={handleInput}
+            value={formValue.referralCode}
+          />
+        </label>
+
+        <label>
+          <p className="mb-2 mx-0.5">პრომო კოდი (არრასავალდებულო)</p>
+          <input
+            name="promoCode"
+            type="text"
+            className="w-full h-[50px] rounded-md border border-gray-600 outline-none px-3 text-sm bg-transparent"
+            onChange={handleInput}
+            value={formValue.promoCode}
+          />
+        </label>
+
+        {submitInfo.messageColorBoolean !== undefined && (
+          <InputMessageComp
+            boolean={submitInfo.messageColorBoolean}
+            message={submitInfo.message}
+          />
+        )}
+
+        <div className="flex flex-col gap-2">
+          <div className="flex items-start gap-2">
+            <Checkbox
+              required
+              className="ckeck border !border-yellow-300 mt-1"
+            />
+            <p className="text-sm">
+              ვეთანხმები{" "}
+              <Link
+                className="underline text-yellow-500 cursor-pointer"
+                to={"/rules"}
+              >
+                წესებს და პირობებს
+              </Link>
+            </p>
+          </div>
+
+          <div className="flex items-start gap-2">
+            <Checkbox
+              required
+              className="ckeck border !border-yellow-300 mt-1"
+            />
+            <p className="text-sm">
+              ვეთანხმები{" "}
+              <Link
+                className="underline text-yellow-500 cursor-pointer"
+                to={"/politic"}
+              >
+                მონაცემთა დაცვის პოლიტიკას
+              </Link>
+            </p>
+          </div>
+        </div>
+
+        <input
+          className="w-full py-5 bg-yellowButton rounded-md shadow-yellowShadow mt-5 outline-none cursor-pointer hover:bg-yellowButtonHover transition-all"
+          value={"რეგისტრაცია"}
+          type="submit"
+        />
+      </form>
+    </div>
+  );
+}
