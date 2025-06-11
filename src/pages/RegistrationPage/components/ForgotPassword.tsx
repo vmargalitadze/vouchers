@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
-import {  useState } from "react";
+import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import InputMessageComp from "../../../components/InputMessage";
 import { API } from "../../../baseAPI";
@@ -74,7 +74,7 @@ export default function ForgotPassword(props: { setForgotPassword: Function }) {
       .then(() => passwordChanged())
       .catch(() => {
         setInputMessage({
-          message: 'ვერიფიკაციის კოდი არასწორია',
+          message: "ვერიფიკაციის კოდი არასწორია",
           messageColor: false,
         });
         setTimeout(() => {
@@ -86,86 +86,85 @@ export default function ForgotPassword(props: { setForgotPassword: Function }) {
       });
   };
 
-
-  
   return (
-    <div className="flex flex-col  justify-center items-center gap-5 md:w-full">
-      <h1 className="text-2xl">პაროლის აღდგენა</h1>
-      <p>მიუთითეთ თქვენი ინფორმაცია</p>
-      {mailVisible ? (
+    <div className="flex flex-col min-h-screen justify-center items-center gap-5 px-4">
+      <h1 className="text-2xl text-center">პაროლის აღდგენა</h1>
+      <p className="text-center">მიუთითეთ თქვენი ინფორმაცია</p>
+
+      {mailVisible && (
         <input
           name="password"
           placeholder="Enter Email"
           value={emailAdress}
           onChange={(e) => setEmailAdress(e.target.value)}
-          className="w-[470px] md:!w-full  h-[50px] rounded-md border border-gray-600 pr-10 outline-none px-3 text-sm bg-transparent"
+          className="w-full max-w-md h-[50px] rounded-md border border-gray-600 pr-10 outline-none px-3 text-sm bg-transparent"
         />
-      ) : (
-        ""
       )}
+
       {isEmailIncorrect && (
         <InputMessageComp
           message={"მეილი არასწორია"}
           boolean={!isEmailIncorrect}
         />
       )}
+
       {isEmailCorrect && (
         <>
-          <div className="w-full flex flex-col items-center ">
-            <p className="text-xs"> მიუთითეთ ვერიფიკაციის კოდი</p>{" "}
+          <div className="w-full flex flex-col items-center">
+            <p className="text-xs text-center">მიუთითეთ ვერიფიკაციის კოდი</p>
             <input
-              placeholder={"მიუთითეთ ვერიფიკაციის კოდი"}
+              placeholder="მიუთითეთ ვერიფიკაციის კოდი"
               value={verificationCode}
               onChange={(e) => setVerificationCode(e.target.value)}
-              className="w-[470px] md:!w-full h-[50px] rounded-md border border-gray-600 pr-10 outline-none px-3 text-sm bg-transparent"
+              className="w-full max-w-md h-[50px] rounded-md border border-gray-600 pr-10 outline-none px-3 text-sm bg-transparent"
             />
           </div>
-          <div className="relative md:w-full text-center">
-            <div className="w-full">
-              <p className="text-xs">მიუთითეთ ახალი პაროლი</p>
-              <input
-                value={newPassword}
-                placeholder={"მიუთითეთ ახალი პაროლი"}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-[470px] md:!w-full h-[50px] rounded-md border border-gray-600 pr-10 outline-none px-3 text-sm bg-transparent"
-                name="password"
-                type={showPassword ? "text" : "password"}
-              />
-            </div>
+
+          <div className="relative w-full max-w-md text-center">
+            <p className="text-xs text-left">მიუთითეთ ახალი პაროლი</p>
+            <input
+              value={newPassword}
+              placeholder="მიუთითეთ ახალი პაროლი"
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="w-full h-[50px] rounded-md border border-gray-600 pr-10 outline-none px-3 text-sm bg-transparent"
+              name="password"
+              type={showPassword ? "text" : "password"}
+            />
             {showPassword ? (
               <FaEye
-                className="cursor-pointer text-md absolute right-3 top-1/2 transform  -translate-y-1/2"
+                className="cursor-pointer text-md absolute right-3 top-1/2 transform -translate-y-1/2"
                 onClick={() => setShowPassword((current) => !current)}
               />
             ) : (
               <FaEyeSlash
-                className="cursor-pointer text-lg absolute right-3 top-1/2 transform  -translate-y-1/2"
+                className="cursor-pointer text-lg absolute right-3 top-1/2 transform -translate-y-1/2"
                 onClick={() => setShowPassword((current) => !current)}
               />
             )}
           </div>
         </>
       )}
-      <h1
-        className="cursor-pointer w-full "
-        onClick={() => props.setForgotPassword(false)}
-      >
-        მთავარ გვერდზე დაბრუნება
-      </h1>
 
       <InputMessageComp
         boolean={inputMessage.messageColor}
         message={inputMessage.message}
       />
+
+      <h1
+        className="cursor-pointer text-center mb-5 text-yellowButtonHover hover:underline transition-all duration-300 text-sm sm:text-base"
+        onClick={() => props.setForgotPassword(false)}
+      >
+        მთავარ გვერდზე დაბრუნება
+      </h1>
+
       <button
-        className={`w-[470px] md:w-full py-5 bg-yellowButton rounded-md shadow-yellowShadow  hover:bg-yellowButtonHover transition-all ${
-          buttonClickTimeout ? "cursor-not-allowed " : ""
+        className={`w-full max-w-md py-5 bg-yellowButton rounded-md shadow-yellowShadow hover:bg-yellowButtonHover transition-all ${
+          buttonClickTimeout ? "cursor-not-allowed" : ""
         }`}
         onClick={isEmailCorrect ? submitNewPassword : submitEmail}
       >
-        პაროლის არდგენა
+        პაროლის აღდგენა
       </button>
-
     </div>
   );
 }

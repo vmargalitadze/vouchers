@@ -60,7 +60,7 @@ export default function SignInForm({
           )}
         </div>
       </label>
-      <p className="cursor-pointer" onClick={() => setForgotPassword(true)}>
+      <p className="cursor-pointer text-yellowButtonHover hover:underline transition-all duration-300 text-sm sm:text-base text-center" onClick={() => setForgotPassword(true)}>
         დაგავიწყდათ პაროლი?
       </p>
       <input
