@@ -68,13 +68,13 @@ const CompanyPage: React.FC = () => {
 
   const handleOrder = (item: Item) => {
     setIsModalOpen(true);
-    
+
     setTimeout(() => {
       setIsModalOpen(false);
-      
+
       const formattedItem = {
         name: item.object_name || item.discount, // Using discount as fallback if object_name is not available
-        photo: item.photo_path
+        photo: item.photo_path,
       };
 
       const payload = {
@@ -82,8 +82,6 @@ const CompanyPage: React.FC = () => {
         items: [formattedItem],
         userId: context?.userInfo?.id,
       };
-
-    
 
       navigate("/send", {
         state: payload,
@@ -122,7 +120,7 @@ const CompanyPage: React.FC = () => {
       fetchCompanyData();
     }
   }, [id]);
-console.log("items", data.items);
+  console.log("items", data.items);
 
   return (
     <div className="p-6  max-w-6xl mx-auto">
@@ -242,12 +240,12 @@ console.log("items", data.items);
                             შეკვეთა
                           </button>
                         ) : (
-                          <button
-                            onClick={() => handleOrder(item)}
+                          <Link
+                            to="/profile"
                             className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition w-full max-w-xs"
                           >
-                            შეკვეთა
-                          </button>
+                            ჩართე გამოწერა
+                          </Link>
                         )
                       ) : (
                         <Link

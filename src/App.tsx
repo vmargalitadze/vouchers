@@ -79,7 +79,7 @@ function App() {
  useEffect(() => {
    const protectedRoutes = [
      "/Profile",
-     "/cards",
+    
 
      "/send",
    
