@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
@@ -5,10 +6,9 @@ import { API } from "../../baseAPI";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { MyContext } from "../../Context/myContext";
+import SendModal from "../../components/SendModal";
 import "swiper/css/navigation";
 import "swiper/css";
-
-import OrderLimitModal from "../../components/OrderLimitModal";
 
 interface Item {
   id: string;
@@ -40,7 +40,7 @@ const CompanyPage: React.FC = () => {
   const navigate = useNavigate();
   const context = useContext(MyContext);
   const [orderCount, setOrderCount] = useState<number>(0);
-  const [showLimitModal, setShowLimitModal] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<{
@@ -66,24 +66,29 @@ const CompanyPage: React.FC = () => {
     }
   }, []);
 
-  const handleOrder = () => {
-    if (orderCount >= 5) {
-      setShowLimitModal(true);
-      return;
-    }
+  const handleOrder = (item: Item) => {
+    setIsModalOpen(true);
+    
+    setTimeout(() => {
+      setIsModalOpen(false);
+      
+      const formattedItem = {
+        name: item.object_name || item.discount, // Using discount as fallback if object_name is not available
+        photo: item.photo_path
+      };
 
-    const newCount = orderCount + 1;
-    setOrderCount(newCount);
-    localStorage.setItem("dailyOrderCount", newCount.toString());
-
-    // Navigate to send page if under limit
-    navigate("/send", {
-      state: {
+      const payload = {
         objId: data.company?.id,
-        items: data.items,
+        items: [formattedItem],
         userId: context?.userInfo?.id,
-      },
-    });
+      };
+
+    
+
+      navigate("/send", {
+        state: payload,
+      });
+    }, 2000);
   };
 
   useEffect(() => {
@@ -117,14 +122,11 @@ const CompanyPage: React.FC = () => {
       fetchCompanyData();
     }
   }, [id]);
-
+console.log("items", data.items);
 
   return (
     <div className="p-6  max-w-6xl mx-auto">
-      <OrderLimitModal
-        isOpen={showLimitModal}
-        onClose={() => setShowLimitModal(false)}
-      />
+      <SendModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       {loading ? (
         <p className="text-center text-gray-500">იტვირთება...</p>
       ) : (
@@ -216,18 +218,14 @@ const CompanyPage: React.FC = () => {
                 key={item.id}
                 className="w-full rounded-2xl shadow-lg overflow-hidden group bg-white flex flex-col"
               >
-                {/* Product image */}
-                  <div className="relative w-full overflow-hidden rounded-xl shadow-lg">
+                <div className="relative w-full overflow-hidden rounded-xl shadow-lg">
                   <img
                     alt={data.company?.object_name || "Company"}
-                     src={item.photo_path}
+                    src={item.photo_path}
                     className="w-full h-72 sm:h-80 md:h-[400px] object-cover rounded-xl shadow-lg"
                   />
                 </div>
 
-
-
-                {/* Bottom content */}
                 <div className="p-4 flex flex-col items-center text-center gap-2 bg-white">
                   {item.discount && (
                     <p className="text-yellow-500 text-sm">{item.discount}</p>
@@ -238,18 +236,18 @@ const CompanyPage: React.FC = () => {
                       {context?.isLoggined ? (
                         context?.userInfo?.subscription === 1 ? (
                           <button
-                            onClick={handleOrder}
+                            onClick={() => handleOrder(item)}
                             className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition w-full max-w-xs"
                           >
                             შეკვეთა
                           </button>
                         ) : (
-                          <Link
-                            to="/profile"
+                          <button
+                            onClick={() => handleOrder(item)}
                             className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition w-full max-w-xs"
                           >
-                            ჩართე გამოწერა
-                          </Link>
+                            შეკვეთა
+                          </button>
                         )
                       ) : (
                         <Link

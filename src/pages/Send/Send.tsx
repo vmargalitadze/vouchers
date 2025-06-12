@@ -4,8 +4,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { API } from "../../baseAPI";
 
+interface OrderItem {
+  name: string;
+  photo: string;
+}
+
 interface LocationState {
-  items?: Record<string, unknown>[];
+  items?: OrderItem[];
   userId?: string | number;
   objId?: string | number;
 }
@@ -90,16 +95,15 @@ const Send: React.FC = () => {
     setLoading(true);
 
     const submitData = {
+      objId,
       name: formData.name,
       surname: formData.surname,
       address: formData.address,
+      items: items,
       phone: formData.phone.trim(),
-      userId,
-      objId,
-      items
+      userId
     };
 
-   
     try {
       const response = await axios.post(`${API}/vouchers/send-info`, submitData);
       console.log("API Response:", response.data);
@@ -129,6 +133,18 @@ const Send: React.FC = () => {
     <div className="max-w-2xl h-screen mt-40 mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">შეკვეთის გაგზავნა</h2>
       
+      {/* Display selected items */}
+      <div className="mb-6">
+        <h3 className="text-lg font-semibold mb-2">არჩეული პროდუქტები:</h3>
+        <div className="grid grid-cols-2 gap-4">
+          {items.map((item, index) => (
+            <div key={index} className="border rounded-lg p-2">
+              <img src={item.photo} alt={item.name} className="w-full h-32 object-contain rounded mb-2" />
+              <p className="text-sm font-medium">{item.name}</p>
+            </div>
+          ))}
+        </div>
+      </div>
      
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
