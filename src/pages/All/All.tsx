@@ -296,7 +296,7 @@ function All() {
           </div>
         </div>
       </div>
-      <div className="min-h-screen text-black bg-gradient-to-b from-gray-900 to-gray-800">
+      <div className="min-h-screen hidden sm:block text-black">
         <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-8 sm:mt-16 mb-8 text-center text-white">
             ჩვენი პარტნიორები
@@ -322,7 +322,7 @@ function All() {
                   )}
                 </button>
                 {openDropdown === "categories" && (
-                  <div className="mt-2 space-y-2 pl-2 max-h-[200px] overflow-y-auto bg-white rounded-lg shadow-sm p-2 absolute z-10 w-[200px]">
+                  <div className="mt-2 space-y-2 pl-2 max-h-[200px] overflow-y-auto bg-white rounded-lg shadow-sm p-2 absolute z-10 w-[300px]">
                     {uniqueCategories.map((category) => (
                       <label
                         key={category}
@@ -358,7 +358,7 @@ function All() {
                   )}
                 </button>
                 {openDropdown === "city" && (
-                  <div className="mt-2 space-y-2 pl-2 bg-white rounded-lg shadow-sm p-2 absolute z-10 w-[200px]">
+                  <div className="mt-2 space-y-2 pl-2 bg-white rounded-lg shadow-sm p-2 absolute z-10 w-[300px]">
                     {cities.map((city) => (
                       <label
                         key={city}
