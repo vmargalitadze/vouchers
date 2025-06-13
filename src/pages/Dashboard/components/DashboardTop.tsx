@@ -14,6 +14,7 @@ import მაღაზიები from "../../../assets/photos/3.webp";
 import ესთეტიკა from "../../../assets/photos/2.webp";
 import მედიკამენტები from "../../../assets/photos/1.webp";
 import კვება from "../../../assets/photos/4.webp";
+import ავტომობილი from "../../../assets/photos/5.webp";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
@@ -41,6 +42,7 @@ export default function DashboardTop() {
     ესთეტიკა,
     მედიკამენტები,
     კვება,
+    ავტომობილი,
   };
 
   useEffect(() => {

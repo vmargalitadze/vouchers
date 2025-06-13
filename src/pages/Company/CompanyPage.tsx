@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
@@ -39,7 +39,7 @@ const CompanyPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const context = useContext(MyContext);
-  const [orderCount, setOrderCount] = useState<number>(0);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [loading, setLoading] = useState(true);
@@ -51,20 +51,7 @@ const CompanyPage: React.FC = () => {
     items: [],
   });
 
-  useEffect(() => {
-    const savedOrderCount = localStorage.getItem("dailyOrderCount");
-    const savedDate = localStorage.getItem("orderCountDate");
-    const today = new Date().toDateString();
-
-    if (savedDate === today && savedOrderCount) {
-      setOrderCount(parseInt(savedOrderCount));
-    } else {
-      // Reset count if it's a new day
-      localStorage.setItem("orderCountDate", today);
-      localStorage.setItem("dailyOrderCount", "0");
-      setOrderCount(0);
-    }
-  }, []);
+ 
 
   const handleOrder = (item: Item) => {
     setIsModalOpen(true);
