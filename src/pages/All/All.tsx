@@ -43,25 +43,18 @@ function All() {
 
   // უნიკალური sub_type-ების სია
   const subTypes = Array.from(
-    new Set(companies.map((c) => c.sub_type).filter(Boolean))
-  )
-    .map((type) => {
-      // ბოლო კატეგორიის გაყოფა
-      if (type === "სტომატოლოგია,თმის გადანერგვა,ესტეტიკა,სასწავლო კურსები") {
-        return [
-          "სტომატოლოგია",
-          "თმის გადანერგვა",
-          "ესტეტიკა",
-          "სასწავლო კურსები",
-        ];
-      }
-      // სტომატოლოგია,ეპილაცია,სახის მოვლა -ს გაყოფა
-      if (type === "სტომატოლოგია,ეპილაცია,სახის მოვლა") {
-        return ["სტომატოლოგია", "ეპილაცია", "სახის მოვლა"];
-      }
-      return type;
-    })
-    .flat();
+    new Set(
+      companies
+        .flatMap(
+          (c) =>
+            c.sub_type
+              ?.split(",") // დაყოს ყველა coma-თი გამოყოფილი სიტყვა
+              .map((t) => t.trim()) // მოაშოროს ცარიელი ადგილები
+        )
+        .filter(Boolean)
+    )
+  );
+console.log(companies);
 
   // უნიკალური ქალაქების სია
   const cities = Array.from(

@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
@@ -23,6 +22,7 @@ interface Voucher {
   id: number;
   type: string;
   isOnline?: number;
+  isTakeAway?: boolean; // Added property
   city: string;
   object_name: string;
   discount: string;
@@ -51,8 +51,6 @@ const CompanyPage: React.FC = () => {
     items: [],
   });
 
- 
-
   const handleOrder = (item: Item) => {
     setIsModalOpen(true);
 
@@ -60,12 +58,13 @@ const CompanyPage: React.FC = () => {
       setIsModalOpen(false);
 
       const formattedItem = {
-        name: item.object_name || item.discount, // Using discount as fallback if object_name is not available
+        name: item.object_name || item.discount,
         photo: item.photo_path,
       };
 
       const payload = {
         objId: data.company?.id,
+        isTakeAway: data.company?.isTakeAway,
         items: [formattedItem],
         userId: context?.userInfo?.id,
       };

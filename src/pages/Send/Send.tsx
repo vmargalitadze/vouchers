@@ -13,6 +13,7 @@ interface LocationState {
   items?: OrderItem[];
   userId?: string | number;
   objId?: string | number;
+  isTakeAway?: number;
 }
 
 interface FormData {
@@ -25,7 +26,7 @@ interface FormData {
 const Send: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const state = location.state as LocationState || {};
+  const state = (location.state as LocationState) || {};
   const items = state.items || [];
   const userId = state.userId ?? "N/A";
   const objId = state.objId ?? "N/A";
@@ -46,7 +47,7 @@ const Send: React.FC = () => {
       ...prev,
       [name]: value,
     }));
-   
+
     setErrors((prev) => ({
       ...prev,
       [name]: "",
@@ -98,14 +99,18 @@ const Send: React.FC = () => {
       objId,
       name: formData.name,
       surname: formData.surname,
-      address: formData.address,
+      address: state.isTakeAway === 1 ? "" : formData.address,
       items: items,
       phone: formData.phone.trim(),
-      userId
+      userId,
     };
+    console.log("aq", objId);
 
     try {
-      const response = await axios.post(`${API}/vouchers/send-info`, submitData);
+      const response = await axios.post(
+        `${API}/vouchers/send-info`,
+        submitData
+      );
       console.log("API Response:", response.data);
 
       if (response.data) {
@@ -113,7 +118,9 @@ const Send: React.FC = () => {
       }
     } catch (error: any) {
       console.error("Error details:", error.response || error);
-      setError(error.response?.data?.error || "დაფიქსირდა შეცდომა, სცადეთ თავიდან");
+      setError(
+        error.response?.data?.error || "დაფიქსირდა შეცდომა, სცადეთ თავიდან"
+      );
     } finally {
       setLoading(false);
     }
@@ -123,7 +130,8 @@ const Send: React.FC = () => {
     return (
       <div className="p-4">
         <p className="text-red-500">
-          მომხმარებლის ID და ობიექტის ID არ არის მითითებული. გთხოვთ გაიაროთ სწორი პროცედურა.
+          მომხმარებლის ID და ობიექტის ID არ არის მითითებული. გთხოვთ გაიაროთ
+          სწორი პროცედურა.
         </p>
       </div>
     );
@@ -132,62 +140,86 @@ const Send: React.FC = () => {
   return (
     <div className="max-w-2xl h-screen mt-40 mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">შეკვეთის გაგზავნა</h2>
-      
+
       {/* Display selected items */}
       <div className="mb-6">
         <h3 className="text-lg font-semibold mb-2">არჩეული პროდუქტები:</h3>
         <div className="grid grid-cols-2 gap-4">
           {items.map((item, index) => (
             <div key={index} className="border rounded-lg p-2">
-              <img src={item.photo} alt={item.name} className="w-full h-32 object-contain rounded mb-2" />
+              <img
+                src={item.photo}
+                alt={item.name}
+                className="w-full h-32 object-contain rounded mb-2"
+              />
               <p className="text-sm font-medium">{item.name}</p>
             </div>
           ))}
         </div>
       </div>
-     
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="name" className="block mb-1">სახელი</label>
+          <label htmlFor="name" className="block mb-1">
+            სახელი
+          </label>
           <input
             type="text"
             id="name"
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            className={`w-full p-2 border text-black rounded ${errors.name ? 'border-red-500' : ''}`}
+            className={`w-full p-2 border text-black rounded ${
+              errors.name ? "border-red-500" : ""
+            }`}
           />
-          {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+          )}
         </div>
 
         <div>
-          <label htmlFor="surname" className="block mb-1">გვარი</label>
+          <label htmlFor="surname" className="block mb-1">
+            გვარი
+          </label>
           <input
             type="text"
             id="surname"
             name="surname"
             value={formData.surname}
             onChange={handleInputChange}
-            className={`w-full p-2 border text-black rounded ${errors.surname ? 'border-red-500' : ''}`}
+            className={`w-full p-2 border text-black rounded ${
+              errors.surname ? "border-red-500" : ""
+            }`}
           />
-          {errors.surname && <p className="text-red-500 text-sm mt-1">{errors.surname}</p>}
+          {errors.surname && (
+            <p className="text-red-500 text-sm mt-1">{errors.surname}</p>
+          )}
         </div>
 
         <div>
-          <label htmlFor="address" className="block mb-1">მისამართი</label>
+          <label htmlFor="address" className="block mb-1">
+            მისამართი
+          </label>
           <input
             type="text"
             id="address"
             name="address"
             value={formData.address}
             onChange={handleInputChange}
-            className={`w-full p-2 border text-black rounded ${errors.address ? 'border-red-500' : ''}`}
+            className={`w-full p-2 border text-black rounded ${
+              errors.address ? "border-red-500" : ""
+            }`}
           />
-          {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
+          {errors.address && (
+            <p className="text-red-500 text-sm mt-1">{errors.address}</p>
+          )}
         </div>
 
         <div>
-          <label htmlFor="phone" className="block mb-1">ტელეფონი</label>
+          <label htmlFor="phone" className="block mb-1">
+            ტელეფონი
+          </label>
           <input
             type="tel"
             id="phone"
@@ -195,16 +227,16 @@ const Send: React.FC = () => {
             value={formData.phone}
             onChange={handleInputChange}
             placeholder="5XXXXXXXX"
-            className={`w-full p-2 border text-black rounded ${errors.phone ? 'border-red-500' : ''}`}
+            className={`w-full p-2 border text-black rounded ${
+              errors.phone ? "border-red-500" : ""
+            }`}
           />
-          {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+          {errors.phone && (
+            <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+          )}
         </div>
 
-        {error && (
-          <div className="text-red-500 py-2">
-            {error}
-          </div>
-        )}
+        {error && <div className="text-red-500 py-2">{error}</div>}
 
         <button
           type="submit"
