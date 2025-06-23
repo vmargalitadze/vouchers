@@ -6,6 +6,7 @@ import მაღაზიები from "../../assets/photos/3.webp";
 import ესთეტიკა from "../../assets/photos/2.webp";
 import მედიკამენტები from "../../assets/photos/1.webp";
 import კვება from "../../assets/photos/4.webp";
+import ავტომობილი from "../../assets/photos/5.webp";
 import { MyContext } from "../../Context/myContext";
 import { Link } from "react-router-dom";
 import { default as QRCode } from "qrcode.react";
@@ -18,6 +19,7 @@ const images: { [key: string]: string } = {
   ესთეტიკა,
   მედიკამენტები,
   კვება,
+  ავტომობილი,
 };
 
 export default function Vouchers() {
