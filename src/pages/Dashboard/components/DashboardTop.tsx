@@ -56,7 +56,6 @@ export default function DashboardTop() {
         const [topResponse, voucherResponse] = await Promise.all([
           axios.get(`${API}/vouchers/top`),
           axios.get(`${API}/vouchers`),
-          
         ]);
 
         const allTopVouchers = topResponse.data as Voucher[];
@@ -79,7 +78,7 @@ export default function DashboardTop() {
 
     fetchVouchers();
   }, []);
-console.log(vouchers);
+  console.log(vouchers);
 
   return (
     <>
@@ -146,7 +145,10 @@ console.log(vouchers);
             </div>
             <div className="flex flex-wrap  justify-center gap-4 max-w-6xl mx-auto px-4">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="flex-1 min-w-[280px] max-w-[320px] theme-card theme-border border-yellow-500/50 rounded-xl overflow-hidden animate-pulse">
+                <div
+                  key={i}
+                  className="flex-1 min-w-[280px] max-w-[320px] theme-card theme-border border-yellow-500/50 rounded-xl overflow-hidden animate-pulse"
+                >
                   <div className="w-full h-32 bg-gray-700 dark:bg-gray-600"></div>
                   <div className="p-4 space-y-2">
                     <div className="w-3/4 h-6 bg-gray-700 dark:bg-gray-600 rounded"></div>
@@ -161,12 +163,7 @@ console.log(vouchers);
           </div>
         ) : topVouchers.length > 0 ? (
           <div className="mb-8">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <i className="fa-solid fa-star text-yellow-500 text-xl"></i>
-              <h2 className="text-2xl mt-4 mb-4 font-bold theme-text sm:text-xl">პოპულარული კომპანიები</h2>
-              <i className="fa-solid fa-star text-yellow-500 text-xl"></i>
-            </div>
-            <div className="flex flex-wrap  md:flex-col justify-center gap-4 max-w-6xl mx-auto px-4">
+            <div className="flex md:hidden  flex-wrap  md:flex-col justify-center gap-4 max-w-6xl mx-auto px-4">
               {topVouchers.map((voucher) => (
                 <Link
                   to={`/company/${voucher.id}`}
@@ -184,17 +181,16 @@ console.log(vouchers);
                   >
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                    
+
                     {/* Top Badge */}
                     <div className="absolute top-2 left-2 bg-yellow-500 text-black px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
                       <i className="fa-solid fa-crown"></i>
                       TOP
                     </div>
-                    
+
                     {/* Discount Badge */}
-                   
                   </div>
-                  
+
                   {/* Content */}
                   <div className="p-4">
                     <h3 className="font-bold text-lg mb-1 group-hover:text-yellow-400 transition-colors line-clamp-1">
@@ -210,24 +206,79 @@ console.log(vouchers);
                         {voucher.type}
                       </span>
                     </div>
-                    
+
                     {/* Hover Effect Indicator */}
                     <div className="absolute bottom-0 left-0 w-full h-1 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                   </div>
                 </Link>
               ))}
             </div>
+
+            {topVouchers.length > 0 && (
+              <div className=" hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1 max-w-6xl mx-auto mb-6">
+                {topVouchers.map((voucher) => (
+                  <Link
+                    to={`/company/${voucher.id}`}
+                    key={voucher.id}
+                    className="group relative theme-card theme-border border-yellow-500/50 rounded-xl theme-text hover:border-yellow-400 hover:shadow-lg hover:shadow-yellow-500/20 transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
+                  >
+                    {/* Background Image */}
+                    <div
+                      className="w-full h-40 bg-gray-700 dark:bg-gray-600 relative overflow-hidden"
+                      style={{
+                        backgroundImage: `url(${voucher.photos?.[0] || ""})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}
+                    >
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+
+                      {/* Top Badge */}
+                      <div className="absolute top-2 left-2 bg-yellow-500 text-black px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                        <i className="fa-solid fa-crown"></i>
+                        TOP
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-4">
+                      <h3 className="font-bold text-lg mb-1 group-hover:text-yellow-400 transition-colors line-clamp-1">
+                        {voucher.object_name}
+                      </h3>
+                      <div className="flex items-center justify-between text-sm text-gray-300">
+                        <span className="flex items-center gap-1">
+                          <i className="fa-solid fa-map-marker-alt text-yellow-500"></i>
+                          {JSON.parse(voucher.city || "[]")[0] || "უცნობი"}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <i className="fa-solid fa-tag text-yellow-500"></i>
+                          {voucher.type}
+                        </span>
+                      </div>
+
+                      {/* Hover Effect Indicator */}
+                      <div className="absolute bottom-0 left-0 w-full h-1 bg-yellow-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         ) : (
           <div className="mb-8 text-center">
             <div className="flex items-center justify-center gap-2 mb-4">
               <i className="fa-solid fa-star text-yellow-500 text-xl"></i>
-              <h2 className="text-2xl font-bold theme-text sm:text-xl">პოპულარული კომპანიები</h2>
+              <h2 className="text-2xl font-bold theme-text sm:text-xl">
+                პოპულარული კომპანიები
+              </h2>
               <i className="fa-solid fa-star text-yellow-500 text-xl"></i>
             </div>
             <div className="bg-gray-800 border border-yellow-500/50 rounded-xl p-8 max-w-md mx-auto">
               <i className="fa-solid fa-info-circle text-yellow-500 text-4xl mb-4"></i>
-              <p className="text-gray-300 mb-4">ამ მომენტში პოპულარული კომპანიები არ არის</p>
+              <p className="text-gray-300 mb-4">
+                ამ მომენტში პოპულარული კომპანიები არ არის
+              </p>
               <Link
                 to="/all"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-600 text-black rounded-lg hover:bg-yellow-500 transition-colors"
