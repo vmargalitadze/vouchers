@@ -1,0 +1,218 @@
+import { useContext, useEffect, useState, useMemo, useCallback } from "react";
+import logout from "../assets/logout.svg";
+import logout2 from "../assets/logout2.svg";
+import { MyContext } from "../Context/myContext";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
+
+import test from "../../public/logo.png";
+
+export default function Navbar() {
+  const context = useContext(MyContext);
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    Boolean(localStorage.getItem("Token"))
+  );
+  const [username, setUsername] = useState(context?.userInfo?.username || "");
+
+  const links = useMemo(
+    () => [
+      {
+        title: "მთავარი",
+        linkTo: "/Dashboard",
+        icon: "fa-home",
+      },
+      {
+        title: "შეთავაზებები",
+        linkTo: "/cards",
+        icon: "fa-gift",
+      },
+      {
+        title: "ხშირად დასმული კითხვები",
+        linkTo: "/FAQ",
+        icon: "fa-question-circle",
+      },
+    ],
+    []
+  );
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, [pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "unset";
+  }, [isOpen]);
+
+  useEffect(() => {
+    console.log("Navbar Auth State:", {
+      contextIsLoggined: context?.isLoggined,
+      contextUsername: context?.userInfo?.username,
+      localIsAuthenticated: isAuthenticated,
+      localUsername: username,
+    });
+
+    const token = localStorage.getItem("Token");
+    const isLoggedIn = Boolean(token && context?.isLoggined);
+
+    setIsAuthenticated(isLoggedIn);
+    if (context?.userInfo?.username) {
+      setUsername(context.userInfo.username);
+    }
+  }, [context?.isLoggined, context?.userInfo]);
+
+  const handleLogout = useCallback(() => {
+    // Clear all auth-related data from localStorage
+    localStorage.removeItem("Token");
+    localStorage.removeItem("dailyOrderCount");
+    localStorage.removeItem("orderCountDate");
+
+    // Reset context states
+    if (context?.setIsLoggined) {
+      context.setIsLoggined(false);
+    }
+    if (context?.setUserInfo) {
+      context.setUserInfo(null);
+    }
+    if (context?.setNotifications) {
+      context.setNotifications([]);
+    }
+
+    // Update local state
+    setIsAuthenticated(false);
+    setUsername("");
+
+    // Redirect to login page
+    navigate("/");
+  }, [context, navigate]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-20">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-yellow-500"></div>
+      </div>
+    );
+  }
+
+  return (
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 theme-bg transition-transform duration-300 ${
+        context?.hideNavbar ? "-translate-y-full" : "translate-y-0"
+      }`}
+    >
+      <nav className="mx-auto px-4 sm:px-6 lg:px-8 py-4 theme-bg backdrop-blur-sm border-b border-yellow-500/20">
+        <div className="max-w-7xl mx-auto  flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex   flex-col items-center justify-center  cursor-pointer">
+            <img
+              src={test}
+              className="w-8 h-8 md:mt-4 mx-auto object-cover "
+              alt="Offers Card"
+            />
+            <span className="theme-text text-[18px] md:text-sm ">Offers Card</span>
+          </Link>
+
+          <div className="flex items-center gap-4">
+            <div className="md:hidden block">
+              <ThemeToggle />
+            </div>
+
+            {!isAuthenticated ? (
+              <button
+                onClick={() => navigate("/login")}
+                className="flex items-center gap-2 text-yellow-500 hover:text-yellow-600 transition-colors duration-200 text-sm font-medium px-3 py-1 rounded"
+              >
+                შესვლა / რეგისტრაცია
+              </button>
+            ) : (
+              <>
+                <Link
+                  to="/Profile"
+                  className="flex items-center gap-2 theme-text-secondary hover:text-yellow-500 transition-colors duration-200"
+                >
+                  <i className="fa-regular fa-user text-yellow-500"></i>
+                  <span className="text-sm">{username}</span>
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="theme-text-secondary md:hidden block hover:text-yellow-500 transition-colors duration-200"
+                >
+                  <img
+                    src={context?.theme === "light" ? logout2 : logout}
+                    alt="logout"
+                    className="w-5 h-5 md:w-12 md:h-12"
+                  />
+                </button>
+              </>
+            )}
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors duration-200"
+            >
+              <div className="w-6 h-5 relative flex flex-col justify-between">
+                <span
+                  className={`w-full h-0.5 bg-yellow-500 transition-all duration-300 ${
+                    isOpen ? "rotate-45 translate-y-2" : ""
+                  }`}
+                />
+                <span
+                  className={`w-full h-0.5 bg-yellow-500 transition-all duration-300 ${
+                    isOpen ? "opacity-0" : ""
+                  }`}
+                />
+                <span
+                  className={`w-full h-0.5 bg-yellow-500 transition-all duration-300 ${
+                    isOpen ? "-rotate-45 -translate-y-2" : ""
+                  }`}
+                />
+              </div>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        <div
+          className={`fixed inset-0 mt-5 transition-transform duration-300 z-50 ${
+            isOpen ? "translate-x-0" : "translate-x-full"
+          } backdrop-blur-md bg-gradient-to-r from-gray-900/80 to-gray-800/80`}
+          style={{ top: "62px" }}
+        >
+          <div className="flex theme-bg h-screen flex-col items-center justify-center space-y-4">
+            {/* Theme Toggle in Mobile Menu */}
+            <ThemeToggle showText={true} />
+
+            {isAuthenticated && (
+              <Link
+                to="/Profile"
+                className="flex items-center gap-3 px-5 py-3 rounded-xl bg-gray-800/70 hover:bg-gray-700/80 text-white shadow-md transition-all duration-200"
+                onClick={() => setIsOpen(false)}
+              >
+                <i className="fa-regular fa-user text-yellow-400 text-lg"></i>
+                <span className="text-base font-medium">{username}</span>
+              </Link>
+            )}
+
+            {links.map((link, i) => (
+              <Link
+                key={i}
+                to={link.linkTo}
+                className="flex items-center gap-3 px-5 py-3 rounded-xl bg-gray-800/70 hover:bg-gray-700/80 text-white shadow-md transition-all duration-200"
+                onClick={() => setIsOpen(false)}
+              >
+                <i className={`fas ${link.icon} text-yellow-300`}></i>
+                <span className="text-base font-medium">{link.title}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </nav>
+    </header>
+  );
+}

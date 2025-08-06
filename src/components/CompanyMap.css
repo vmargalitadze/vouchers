@@ -1,0 +1,43 @@
+/* Override Google Maps default styling */
+.company-map-iframe {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Target Google Maps iframe specifically */
+.company-map-iframe[src*="google.com/maps"] {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.place-card{
+  display: none !important;
+}
+
+.place-card-medium{
+  display: none !important;
+}
+
+.place-card-small{
+  display: none !important;
+}
+
+.place-card-large{  
+  display: none !important;
+}
+
+.place-card-medium{
+  display: none !important;
+}
+
+.place-card-small{
+  display: none !important;
+}
