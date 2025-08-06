@@ -56,6 +56,7 @@ export default function DashboardTop() {
         const [topResponse, voucherResponse] = await Promise.all([
           axios.get(`${API}/vouchers/top`),
           axios.get(`${API}/vouchers`),
+          
         ]);
 
         const allTopVouchers = topResponse.data as Voucher[];
@@ -143,7 +144,7 @@ console.log(vouchers);
               <div className="w-48 h-8 bg-gray-700 dark:bg-gray-600 rounded animate-pulse"></div>
               <div className="w-6 h-6 bg-yellow-500 rounded-full animate-pulse"></div>
             </div>
-            <div className="flex flex-wrap justify-center gap-4 max-w-6xl mx-auto px-4">
+            <div className="flex flex-wrap  justify-center gap-4 max-w-6xl mx-auto px-4">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="flex-1 min-w-[280px] max-w-[320px] theme-card theme-border border-yellow-500/50 rounded-xl overflow-hidden animate-pulse">
                   <div className="w-full h-32 bg-gray-700 dark:bg-gray-600"></div>
@@ -165,7 +166,7 @@ console.log(vouchers);
               <h2 className="text-2xl mt-4 mb-4 font-bold theme-text sm:text-xl">პოპულარული კომპანიები</h2>
               <i className="fa-solid fa-star text-yellow-500 text-xl"></i>
             </div>
-            <div className="flex flex-wrap justify-center gap-4 max-w-6xl mx-auto px-4">
+            <div className="flex flex-wrap  md:flex-col justify-center gap-4 max-w-6xl mx-auto px-4">
               {topVouchers.map((voucher) => (
                 <Link
                   to={`/company/${voucher.id}`}

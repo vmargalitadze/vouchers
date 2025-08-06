@@ -33,7 +33,8 @@ export default function SeeModal({ voucher }: any) {
       document.body.classList.remove("modal-open");
     };
   }, [voucher.id]);
-
+ console.log(offerData);
+ 
   return (
     <div className="modal blurred-background p-6 flex items-end overflow-y-auto max-h-full h-[100vh]">
       <h2 className="absolute top-12 text-yellow-500 text-center">
